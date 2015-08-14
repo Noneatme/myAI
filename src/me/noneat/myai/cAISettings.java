@@ -21,6 +21,7 @@ public class cAISettings
 	public static boolean DEBUG             = true;
 	public static String DATABASE_PATH      = "main.db";
 	public static boolean USE_ASCII_CHARS   = false;
+	public static long TERMINATE_IDLE_TIME  = 20000;
 
 	protected static boolean instanced      = false;
 

@@ -25,21 +25,60 @@ public class cUserInput
 	// -- \\
 	public cUserInput(String input)
 	{
+		// Reset the close timeout for the program
 		cAISettings.closeHandler.resetCloseHandlerRequest();
 
+		// Set the input
 		this.sInput = input;
-		cMain.ai.setInput(this.sInput);
-		PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO ai_userinput (sInput, iAnswerTo) VALUES (?, ?);");
 
-		try
+		// Get Lower Case String
+		String lowerCaseInput = this.sInput.toLowerCase();
+
+		switch(lowerCaseInput)
 		{
-			stm.setString(1, input);
-			stm.setString(2, String.valueOf(cMain.ai.getiLastResponseID()));
-			cAISettings.getDatabase().executeStatement(stm);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
+			case "learn_mode":
+				// Activate Leaarn mode
+				cMain.ai.setLearnMode(!cMain.ai.getLearnMode());
+				break;
+			case "abort":
+				// Learn Mode Activated?
+				if(cMain.ai.getLearnMode())
+				{
+					// Learning the first or second questions
+					if(cMain.ai.getLearnStatusMode() == 1 || cMain.ai.getLearnStatusMode() == 2)
+					{
+						// Set learn mode to 0
+						cMain.ai.setLearnStatusMode(0);
+						System.out.println("Learn Mode Question cleared, time to input the next question.");
+					}
+					else
+					{
+						// Disable Learn Mode
+						cMain.ai.setLearnMode(false);
+						cMain.ai.setLearnStatusMode(0);
+					}
+
+					break; // Break only here beacuse we want the default value to be called if this condition is not true
+				}
+			default:
+				// Set the Ai's input to think of
+				cMain.ai.setInput(this.sInput);
+
+				// Ssave the statement
+				PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO ai_userinput (sInput, iAnswerTo) VALUES (?, ?);");
+
+				try
+				{
+					stm.setString(1, input);
+					stm.setString(2, String.valueOf(cMain.ai.getiLastResponseID()));
+					cAISettings.getDatabase().executeStatement(stm);
+				}
+				catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+
+				break;
 		}
 
 	}

@@ -29,7 +29,6 @@ public class cDatabase
 		try
 		{
 			Class.forName("org.sqlite.JDBC");
-
 			try
 			{
 				this.con = DriverManager.getConnection("jdbc:sqlite:" + this.m_sDatabaseFile);

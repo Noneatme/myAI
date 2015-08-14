@@ -1,5 +1,6 @@
 package me.noneat.myai.util;
 
+import me.noneat.myai.cAISettings;
 import me.noneat.myai.cMain;
 
 /**
@@ -26,7 +27,7 @@ public class cCloseHandler extends Thread
 		{
 			try
 			{
-				if(System.currentTimeMillis()-this.m_iLastMS > 20000)
+				if(System.currentTimeMillis()-this.m_iLastMS > cAISettings.TERMINATE_IDLE_TIME)
 				{
 					cMain.abort();
 				}

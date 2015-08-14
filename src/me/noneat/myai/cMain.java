@@ -1,5 +1,6 @@
 package me.noneat.myai;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import me.noneat.myai.ai.cAI;
 
 /**
@@ -24,6 +25,7 @@ public class cMain
 	{
 		System.out.println("////// //////");
 		System.out.println("Loading MyAI " + cAISettings.VERSION + ", Debug: " + cAISettings.DEBUG);
+		System.out.println("Idle Terminate Time: " + cAISettings.TERMINATE_IDLE_TIME / 1000 + " Seconds");
 		cAISettings.consoleUtil.setLoadingState(true);
 
 		cMain.ai = new cAI();
@@ -42,7 +44,7 @@ public class cMain
 
 	public static void abort()
 	{
-		System.out.println("!! Got abort signal, terminating porgramm");
+		System.out.println("!! Got Abort Signal, Terminating Program");
 		System.exit(0);
 	}
 }

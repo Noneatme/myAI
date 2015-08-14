@@ -65,4 +65,16 @@ public class cSentenceUtils
 
 		return sString;
 	}
+
+	public static String getDatabaseReadyString(String sString, boolean ignoreAll)
+	{
+		if(ignoreAll)
+		{
+			// TODO: APPLY CASE SENSITIVE OPTION FOR OUTPUT INTO LEARN MODE
+			sString = sString.toLowerCase();
+
+			return sString.replaceAll("[-+.^:,?]", "");
+		}
+		return sString;
+	}
 }

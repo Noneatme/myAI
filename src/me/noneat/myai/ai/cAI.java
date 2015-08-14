@@ -1,7 +1,9 @@
 package me.noneat.myai.ai;
 
 import me.noneat.myai.cAISettings;
+import me.noneat.myai.cMain;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,6 +16,7 @@ import java.sql.SQLException;
 // -- \\
 public class cAI extends Thread
 {
+
 	// -- //
 	// -- || PVars
 	// -- \\
@@ -29,7 +32,10 @@ public class cAI extends Thread
 	private boolean bReady          = false;
 
 	private int iLastResponseID     = 0;
+	private boolean bLearnMode      = false;
 
+
+	private int iLearnStatusMode    = 0;
 
 
 	// -- //
@@ -39,10 +45,10 @@ public class cAI extends Thread
 	{
 
 	}
+
 	// -- //
 	// -- || getSentenceCategory
 	// -- \\
-
 	public int getSentenceCategory(String sSentence)
 	{
 		boolean question = cSentenceUtils.hasSentenceQuestionmark(sSentence);
@@ -86,7 +92,9 @@ public class cAI extends Thread
 
 			if (!bAnswerFound)
 			{
-				ResultSet answerSet;
+				ResultSet answerSet = null;
+
+
 				if (question)
 				{
 					answerSet = cAISettings.aiManager.getRandomSentenceFromCategory(2);       // Question Answer
@@ -96,12 +104,55 @@ public class cAI extends Thread
 					answerSet = cAISettings.aiManager.getRandomSentenceFromCategory(3);       // Statement Answer
 				}
 
-				sAnswer = answerSet.getString(1);
-				this.iLastResponseID = answerSet.getInt(2);
-
-				sAnswer = cSentenceUtils.applySentenceTypeToEnd(sAnswer, iAnswerType);
-				sAnswer = cSentenceUtils.putAINameIntoString(sAnswer);
+				if(answerSet != null)
+				{
+					sAnswer = answerSet.getString(1);
+					this.iLastResponseID = answerSet.getInt(2);
+				}
 			}
+
+			// LEARN MODE //
+			if(this.getLearnMode())
+			{
+				if(question && this.iLearnStatusMode == 0)
+				{
+					if (this.iLearnStatusMode == 0)  // A Question
+					{
+						String sToSave = cSentenceUtils.getDatabaseReadyString(sInput, true);
+
+						sAnswer = "How should I answer this question: " + sToSave;
+						iAnswerType = 2;
+						this.iLearnStatusMode = 1;
+
+						PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO ai_questions (sQuestion) VALUES (?);");
+						stm.setString(1, sToSave);
+						cAISettings.getDatabase().executeStatement(stm);
+
+						// TODO: GET_LAST_INSERT_ID();
+					}
+				}
+				else
+				{
+					if(this.iLearnStatusMode == 1) //
+					{
+						// TODO:
+						String sToSave = cSentenceUtils.getDatabaseReadyString(sInput, false);
+
+						System.out.println("Saved: " + sToSave);
+						sAnswer = "Ok, Saved. Type in ABORT to cancel this question answers to implement a next question";
+						iAnswerType = 1;
+						this.iLearnStatusMode = 1;
+					}
+				}
+			}
+			else
+			{
+
+			}
+
+			sAnswer = cSentenceUtils.applySentenceTypeToEnd(sAnswer, iAnswerType);
+			sAnswer = cSentenceUtils.putAINameIntoString(sAnswer);
+
 
 			this.setNextAnswer(sAnswer);
 			this.speak();
@@ -152,7 +203,6 @@ public class cAI extends Thread
 			{
 				if(this.bHasToThing)
 				{
-
 					this.think();
 				}
 				sleep(1000);
@@ -171,27 +221,22 @@ public class cAI extends Thread
 	{
 		return sName;
 	}
-
 	public void setsName(String sName)
 	{
 		this.sName = sName;
 	}
-
 	public String getsOwner()
 	{
 		return sOwner;
 	}
-
 	public void setsOwner(String sOwner)
 	{
 		this.sOwner = sOwner;
 	}
-
 	public String getsDateCreated()
 	{
 		return sDateCreated;
 	}
-
 	public void setsDateCreated(String sDateCreated)
 	{
 		this.sDateCreated = sDateCreated;
@@ -208,9 +253,30 @@ public class cAI extends Thread
 	{
 		return iLastResponseID;
 	}
-
 	public void setiLastResponseID(int iLastResponseID)
 	{
 		this.iLastResponseID = iLastResponseID;
 	}
+	public void setLearnMode(boolean learnMode)
+	{
+		this.bLearnMode = learnMode;
+
+		if(this.bLearnMode)
+			System.out.println("Learn Mode now active, watch your words\nThe learn mode should be used just for static questions and not for dynamic questions like 'What time is it?'\nPlease note your questions are not case-sensitive and all special characters will be removed in the database.\nUse '%s' as the first argument to get the AI's name into the answer you define.");
+		else
+			System.out.println("Learn Mode deactivated");
+	}
+	public boolean getLearnMode()
+	{
+		return this.bLearnMode;
+	}
+	public int getLearnStatusMode()
+	{
+		return iLearnStatusMode;
+	}
+	public void setLearnStatusMode(int iLearnStatusMode)
+	{
+		this.iLearnStatusMode = iLearnStatusMode;
+	}
+
 }
