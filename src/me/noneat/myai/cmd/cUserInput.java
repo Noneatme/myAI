@@ -36,11 +36,27 @@ public class cUserInput
 
 		switch(lowerCaseInput)
 		{
-			case "learn_mode":
+			case "-help":
+				System.out.println("Available Commands:\n" +
+									"-help: Displays the help\n" +
+									"-learn_mode: Toggles the learn mode on / off\n" +
+									"-exit, -CTRL^C, -quit: Terminates the application\n" +
+									"-abort: Aborts the curent sentence in the learnmode\n");
+				break;
+			// Learn Mode //
+			case "-learn_mode":
 				// Activate Leaarn mode
 				cMain.ai.setLearnMode(!cMain.ai.getLearnMode());
 				break;
-			case "abort":
+			// Exit //
+			case "-exit":
+			case "-CTRL^C":
+			case "-quit":
+				System.out.println("Goodbye");
+				cMain.abort();
+				break;
+			// Abort Learn Mode //
+			case "-abort":
 				// Learn Mode Activated?
 				if(cMain.ai.getLearnMode())
 				{
@@ -60,6 +76,7 @@ public class cUserInput
 
 					break; // Break only here beacuse we want the default value to be called if this condition is not true
 				}
+				// Default
 			default:
 				// Set the Ai's input to think of
 				cMain.ai.setInput(this.sInput);

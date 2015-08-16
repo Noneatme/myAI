@@ -27,10 +27,13 @@ public class cCloseHandler extends Thread
 		{
 			try
 			{
-				if(System.currentTimeMillis()-this.m_iLastMS > cAISettings.TERMINATE_IDLE_TIME)
+				if(cMain.ai.canBeTerminated())
 				{
-					cMain.abort();
+					if (System.currentTimeMillis() - this.m_iLastMS > cAISettings.TERMINATE_IDLE_TIME) {
+						cMain.abort();
+					}
 				}
+
 				sleep(1000);
 			}
 			catch (InterruptedException e)
