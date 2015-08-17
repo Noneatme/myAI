@@ -32,13 +32,16 @@ public class cAIManager
 
 	}
 
+	// -- //
+	// -- || getRandomSentenceFromCategory
+	// -- \\
 	public ResultSet getRandomSentenceFromCategory(int category)
 	{
 		ResultSet sentence = null;
 
 		try
 		{
-			ResultSet result = cAISettings.getDatabase().executeQuery("SELECT sText, iResponseID FROM ai_Responses WHERE iCategory = '" + category + "' ORDER BY RANDOM() LIMIT 1;");
+			ResultSet result = cAISettings.getDatabase().executeQuery("SELECT sText, iResponseID FROM ai_responses WHERE iCategory = '" + category + "' ORDER BY RANDOM() LIMIT 1;");
 
 			return result;
 		}
@@ -49,6 +52,24 @@ public class cAIManager
 		return sentence;
 	}
 
+	// -- //
+	// -- || getRandomSentenceFromResponses
+	// -- \\
+	public ResultSet getRandomSentenceFromResponses(int response)
+	{
+		ResultSet sentence = null;
+
+		try
+		{
+			ResultSet result = cAISettings.getDatabase().executeQuery("SELECT sText, iCategory, iAnswerTo FROM ai_responses WHERE iAnswerTo = '" + response + "' ORDER BY RANDOM() LIMIT 1;");
+			return result;
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return sentence;
+	}
 	// -- //
 	// -- || load
 	// -- \\

@@ -21,9 +21,8 @@ public class cConsoleUtil
 	// -- \\
 	public cConsoleUtil()
 	{
-		this.wheel = new cLoadingSpinWheel();
-
-		cConsoleUtil.instance = this;
+		this.wheel              = new cLoadingSpinWheel();
+		cConsoleUtil.instance   = this;
 	}
 
 	// -- //

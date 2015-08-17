@@ -39,7 +39,7 @@ public class cMain
 
 		cAISettings.consoleUtil.setLoadingState(false);
 
-		cMain.ai.setLearnMode(true);
+		//cMain.ai.setLearnMode(true);
 
 	}
 

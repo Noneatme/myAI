@@ -6,21 +6,32 @@ import me.noneat.myai.cMain;
 /**
  * Created by Noneatme on 13.08.2015.
  */
+// -- //
+// -- || closeHandler
+// -- \\
 public class cCloseHandler extends Thread
 {
 	private long m_iLastMS      = System.currentTimeMillis();
 
+	// -- //
+	// -- || constructor
+	// -- \\
 	public cCloseHandler()
 	{
 
 	}
 
-
+	// -- //
+	// -- || resetCloseHandlerRequest
+	// -- \\
 	public void resetCloseHandlerRequest()
 	{
 		this.m_iLastMS = System.currentTimeMillis();
 	}
 
+	// -- //
+	// -- || run
+	// -- \\
 	public synchronized void run()
 	{
 		while(true)

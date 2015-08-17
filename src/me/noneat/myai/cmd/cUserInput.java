@@ -5,7 +5,6 @@ import me.noneat.myai.cMain;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * Created by Noneatme on 12.08.2015.
@@ -39,11 +38,12 @@ public class cUserInput
 			case "-help":
 				System.out.println("Available Commands:\n" +
 									"-help: Displays the help\n" +
-									"-learn_mode: Toggles the learn mode on / off\n" +
+									"-learn: Toggles the learn mode on / off\n" +
 									"-exit, -CTRL^C, -quit: Terminates the application\n" +
 									"-abort: Aborts the curent sentence in the learnmode\n");
 				break;
 			// Learn Mode //
+			case "-learn":
 			case "-learn_mode":
 				// Activate Leaarn mode
 				cMain.ai.setLearnMode(!cMain.ai.getLearnMode());
@@ -87,7 +87,7 @@ public class cUserInput
 				try
 				{
 					stm.setString(1, input);
-					stm.setString(2, String.valueOf(cMain.ai.getiLastResponseID()));
+					stm.setString(2, String.valueOf(cMain.ai.getLastResponseID()));
 					cAISettings.getDatabase().executeStatement(stm);
 				}
 				catch (SQLException e)

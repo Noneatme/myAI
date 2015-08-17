@@ -17,7 +17,7 @@ public class cLoadingSpinWheel extends Thread
 	private boolean m_bDo   = true;
 
 	// -- //
-	// -- || run Method
+	// -- || run
 	// -- \\
 	public void run()
 	{

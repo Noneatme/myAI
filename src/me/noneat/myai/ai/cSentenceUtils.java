@@ -5,8 +5,14 @@ import me.noneat.myai.cMain;
 /**
  * Created by Noneatme on 13.08.2015.
  */
+// -- //
+// -- || Class: SentenceUtils
+// -- \\
 public class cSentenceUtils
 {
+	// -- //
+	// -- || hasSentenceQuestionmark
+	// -- \\
 	public static boolean hasSentenceQuestionmark(String sentence)
 	{
 		if(sentence.contains("?"))
@@ -16,11 +22,17 @@ public class cSentenceUtils
 		return false;
 	}
 
+	// -- //
+	// -- || putAINameIntoString
+	// -- \\
 	public static String putAINameIntoString(String sentence)
 	{
-		return String.format(sentence, cMain.ai.getsName());
+		return sentence.replaceAll("%s", cMain.ai.getAIName());
 	}
 
+	// -- //
+	// -- || isSentence
+	// -- \\
 	public static boolean isSentence(String string)
 	{
 		if(string.contains(" "))
@@ -38,6 +50,9 @@ public class cSentenceUtils
 		4 - Very loud answer - 3 Exclamation mark
 		5 - No mark
 	 */
+	// -- //
+	// -- || applySentenceTypeToEnd
+	// -- \\
 	public static String applySentenceTypeToEnd(String sentence, int type)
 	{
 		String sString = "";
@@ -66,9 +81,12 @@ public class cSentenceUtils
 		return sString;
 	}
 
-	public static String getDatabaseReadyString(String sString, boolean ignoreAll)
+	// -- //
+	// -- || getDatabaseReadyString
+	// -- \\
+	public static String getDatabaseReadyString(String sString, boolean ignoreNone)
 	{
-		if(ignoreAll)
+		if(ignoreNone)
 		{
 			// TODO: APPLY CASE SENSITIVE OPTION FOR OUTPUT INTO LEARN MODE
 			sString = sString.toLowerCase();
@@ -76,5 +94,16 @@ public class cSentenceUtils
 			return sString.replaceAll("[-+.^:,?]", "");
 		}
 		return sString;
+	}
+
+	// -- //
+	// -- || splitSentenceIntoWords
+	// -- \\
+	public static String[] splitSentenceIntoWords(String sSentence)
+	{
+		String[] words = sSentence.split("\\s+");
+		for(int i = 0; i < words.length; i++)
+			words[i] = words[i].replaceAll("[^\\w]", "");
+		return words;
 	}
 }

@@ -1,6 +1,7 @@
 package me.noneat.myai.ai;
 
 import me.noneat.myai.cAISettings;
+import me.noneat.myai.sql.cSQLQuestionAnswerFinder;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,7 @@ public class cAI extends Thread
 	// -- //
 	// -- || PVars
 	// -- \\
-	public String VERSION = "0.0.1";
+	protected final String VERSION = "0.0.1";
 
 	private String sDateCreated     		= null;
 	private String sName            		= null;
@@ -92,10 +93,13 @@ public class cAI extends Thread
 			// LEARN MODE //
 			if(this.getLearnMode())
 			{
+				// Question and Learn Status Mode = Reday?
 				if(question && this.iLearnStatusMode == 0)
 				{
+					// Ready?
 					if (this.iLearnStatusMode == 0)  // A Question
 					{
+
 						String sToSave = cSentenceUtils.getDatabaseReadyString(sInput, true);
 
 						sAnswer = "How should I answer this question: " + sToSave;
@@ -139,6 +143,7 @@ public class cAI extends Thread
 						sAnswer = "Ok, Saved. Type in -ABORT to cancel this question answers to implement a next question";
 						iAnswerType = 1;
 						this.iLearnStatusMode = 1;
+
 					}
 				}
 			}
@@ -169,6 +174,7 @@ public class cAI extends Thread
 				}
 			}
 
+			/*
 
 			sAnswer = cSentenceUtils.applySentenceTypeToEnd(sAnswer, iAnswerType);
 			sAnswer = cSentenceUtils.putAINameIntoString(sAnswer);
@@ -176,6 +182,13 @@ public class cAI extends Thread
 
 			this.setNextAnswer(sAnswer);
 			this.speak();
+			*/
+
+			if(this.getLearnMode())
+			{
+				this.setNextAnswer(sAnswer);
+				this.speak();
+			}
 			this.bHasToThink = false;
 		}
 		catch(Exception ex)
@@ -222,6 +235,7 @@ public class cAI extends Thread
 		{
 			System.out.println("AI Started. Awaiting Input");
 			this.bReady = true;
+
 			while (true)
 			{
 				if(this.bHasToThink)
@@ -247,8 +261,9 @@ public class cAI extends Thread
 
 	public String getQuestionAnswer(String sQuestion, int iCategory)
 	{
-		String sAnswer = null;
-
+		String sAnswer                  = null;
+		cSQLQuestionAnswerFinder finder = new cSQLQuestionAnswerFinder(sQuestion);
+		finder.start();
 
 		return sAnswer;
 	}
@@ -260,8 +275,6 @@ public class cAI extends Thread
 	public String getStatementAnswer(String sQuestion, int iCategory)
 	{
 		String sAnswer = null;
-
-
 		return sAnswer;
 	}
 
@@ -269,46 +282,89 @@ public class cAI extends Thread
 	// -- //
 	// -- || GETTER AND SETTER
 	// -- \\
-	public String getsName()
+	// -- //
+	// -- || getAIName
+	// -- \\
+	public String getAIName()
 	{
 		return sName;
 	}
-	public void setsName(String sName)
+
+	// -- //
+	// -- || setAIName
+	// -- \\
+	public void setAIName(String sName)
 	{
 		this.sName = sName;
 	}
-	public String getsOwner()
+
+	// -- //
+	// -- || getAIOwner
+	// -- \\
+	public String getAIOwner()
 	{
 		return sOwner;
 	}
-	public void setsOwner(String sOwner)
+
+	// -- //
+	// -- || setAIOwner
+	// -- \\
+	public void setAIOwner(String sOwner)
 	{
 		this.sOwner = sOwner;
 	}
-	public String getsDateCreated()
+
+	// -- //
+	// -- || getAIDateCreated
+	// -- \\
+	public String getAIDateCreated()
 	{
 		return sDateCreated;
 	}
-	public void setsDateCreated(String sDateCreated)
+
+	// -- //
+	// -- || setAIDateCreated
+	// -- \\
+	public void setAIDateCreated(String sDateCreated)
 	{
 		this.sDateCreated = sDateCreated;
 	}
+
+	// -- //
+	// -- || isReady
+	// -- \\
 	public boolean isReady()
 	{
 		return this.bReady;
 	}
+
+	// -- //
+	// -- || setReady
+	// -- \\
 	public void setReady(boolean bBool)
 	{
 		this.bReady = bBool;
 	}
-	public int getiLastResponseID()
+
+	// -- //
+	// -- || getLastResponseID
+	// -- \\
+	public int getLastResponseID()
 	{
 		return iLastResponseID;
 	}
-	public void setiLastResponseID(int iLastResponseID)
+
+	// -- //
+	// -- || setLastResposneID
+	// -- \\
+	public void setLastResponseID(int iLastResponseID)
 	{
 		this.iLastResponseID = iLastResponseID;
 	}
+
+	// -- //
+	// -- || setLearnMode
+	// -- \\
 	public void setLearnMode(boolean learnMode)
 	{
 		this.bLearnMode = learnMode;
@@ -324,18 +380,34 @@ public class cAI extends Thread
 		else
 			System.out.println("Learn Mode deactivated");
 	}
+
+	// -- //
+	// -- || getLearnMode
+	// -- \\
 	public boolean getLearnMode()
 	{
 		return this.bLearnMode;
 	}
+
+	// -- //
+	// -- || getLearnStatusMode
+	// -- \\
 	public int getLearnStatusMode()
 	{
 		return iLearnStatusMode;
 	}
+
+	// -- //
+	// -- || setLearnStatusModee
+	// -- \\
 	public void setLearnStatusMode(int iLearnStatusMode)
 	{
 		this.iLearnStatusMode = iLearnStatusMode;
 	}
+
+	// -- //
+	// -- || canBeTerminated
+	// -- \\
 	public boolean canBeTerminated()
 	{
 		if(this.iLearnStatusMode != 0)

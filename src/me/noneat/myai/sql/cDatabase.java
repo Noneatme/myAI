@@ -42,7 +42,7 @@ public class cDatabase
 		}
 		catch(Exception ex)
 		{
-			System.out.println("SQLite Database Library is missing!");
+			System.err.println("SQLite Database Library is missing!");
 			ex.printStackTrace();
 			cMain.abort();
 		}
@@ -149,9 +149,9 @@ public class cDatabase
 			rSystem.next();
 
 			// APPLY VARS
-			cMain.ai.setsName(rSystem.getString(1));
-			cMain.ai.setsDateCreated(rSystem.getString(2));
-			cMain.ai.setsOwner(rSystem.getString(3));
+			cMain.ai.setAIName(rSystem.getString(1));
+			cMain.ai.setAIDateCreated(rSystem.getString(2));
+			cMain.ai.setAIOwner(rSystem.getString(3));
 
 
 			// AI MANAGER
@@ -161,5 +161,10 @@ public class cDatabase
 		{
 			ex.printStackTrace();
 		}
+	}
+
+	public Statement createStatement() throws SQLException
+	{
+		return this.con.createStatement();
 	}
 }
