@@ -1,7 +1,7 @@
 package me.noneat.myai.sql;
 
 /**
- * Created by Jonas Barascu on 17.08.2015.
+ * Created by Noneatme on 17.08.2015.
  */
 
 // -- //

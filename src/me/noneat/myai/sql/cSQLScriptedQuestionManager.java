@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
- * Created by Jonas Barascu on 18.08.2015.
+ * Created by Noneatme on 18.08.2015.
  */
 public class cSQLScriptedQuestionManager extends cSQLAnswerFinder
 {
