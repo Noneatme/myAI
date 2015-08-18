@@ -3,6 +3,7 @@ package me.noneat.myai.sql;
 import me.noneat.myai.cAISettings;
 import me.noneat.myai.cMain;
 
+import javax.swing.*;
 import java.sql.*;
 
 /**
@@ -34,6 +35,7 @@ public class cDatabase
 				this.con = DriverManager.getConnection("jdbc:sqlite:" + this.m_sDatabaseFile);
 				if(this.stat == null || this.stat.isClosed())
 					stat = this.con.createStatement();
+
 			}
 			catch(Exception ex)
 			{
@@ -166,5 +168,10 @@ public class cDatabase
 	public Statement createStatement() throws SQLException
 	{
 		return this.con.createStatement();
+	}
+
+	public Connection getConnection()
+	{
+		return this.con;
 	}
 }

@@ -61,8 +61,9 @@ public class cSQLQuestionAnswerFinder extends cSQLAnswerFinder
 				query += addQuery3;
 		}
 
-		System.out.println(query);
+
 		*/
+
 			int iQuestionCat = 0;
 
 			// For all Words
@@ -72,6 +73,7 @@ public class cSQLQuestionAnswerFinder extends cSQLAnswerFinder
 				query += " sQuestion LIKE '%" + words[i].toLowerCase() + "%'";
 				//System.out.println(query);
 				//System.out.println(query);
+				System.out.println(query);
 			/*
 			if(i-1 == words.length)
 				query += ";";
@@ -91,7 +93,6 @@ public class cSQLQuestionAnswerFinder extends cSQLAnswerFinder
 				{
 					e.printStackTrace();
 				}
-
 				// Try
 				try
 				{
@@ -134,7 +135,6 @@ public class cSQLQuestionAnswerFinder extends cSQLAnswerFinder
 									this.setFoundQuestion(firstRowData);
 								}
 							}
-
 						}
 						else
 						{
@@ -149,7 +149,6 @@ public class cSQLQuestionAnswerFinder extends cSQLAnswerFinder
 						this.setAnswer(cSentenceUtils.putAINameIntoString(cAISettings.aiManager.getRandomSentenceFromCategory(2).getString(1)));
 						break;
 					}
-
 				}
 				catch (Exception ex)
 				{
@@ -188,6 +187,8 @@ public class cSQLQuestionAnswerFinder extends cSQLAnswerFinder
 			{
 				this.setAnswer(cSentenceUtils.putAINameIntoString(cAISettings.aiManager.getRandomSentenceFromCategory(2).getString(1)));
 			}
+
+			System.out.println("Query took " + this.getTickCountElapsed() / 1000 + " ms");
 			cMain.ai.setNextAnswer(this.getAnswer());
 			cMain.ai.speak();
 		}

@@ -41,9 +41,10 @@ public class cAIManager
 
 		try
 		{
-			ResultSet result = cAISettings.getDatabase().executeQuery("SELECT sText, iResponseID FROM ai_responses WHERE iCategory = '" + category + "' ORDER BY RANDOM() LIMIT 1;");
+			ResultSet result = cAISettings.getDatabase().createStatement().executeQuery("SELECT sText, iResponseID FROM ai_responses WHERE iCategory = '" + category + "' ORDER BY RANDOM() LIMIT 1;");
 
-			return result;
+			if(!result.isClosed())
+				return result;
 		}
 		catch(Exception ex)
 		{

@@ -1,6 +1,7 @@
 package me.noneat.myai.ai;
 
 import me.noneat.myai.cAISettings;
+import me.noneat.myai.sql.cSQLABCQuestionAnswerFinder;
 import me.noneat.myai.sql.cSQLQuestionAnswerFinder;
 
 import java.sql.PreparedStatement;
@@ -220,8 +221,7 @@ public class cAI extends Thread
 	// -- \\
 	public void speak()
 	{
-		System.out.println(this.sNextAnswer);
-
+		System.err.println(this.sNextAnswer);
 		// NOTE: This can cause some issues on the closeHandler to perform the automatic termination process.
 		cAISettings.closeHandler.resetCloseHandlerRequest();
 	}
@@ -262,7 +262,7 @@ public class cAI extends Thread
 	public String getQuestionAnswer(String sQuestion, int iCategory)
 	{
 		String sAnswer                  = null;
-		cSQLQuestionAnswerFinder finder = new cSQLQuestionAnswerFinder(sQuestion);
+		cSQLABCQuestionAnswerFinder finder = new cSQLABCQuestionAnswerFinder(sQuestion);
 		finder.start();
 
 		return sAnswer;
