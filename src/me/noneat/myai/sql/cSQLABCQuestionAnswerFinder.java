@@ -11,6 +11,9 @@ import java.util.Arrays;
 
 /**
  * Created by Noneatme on 17.08.2015.
+ * Version: 1.0.0
+ * Purpose: The used search algorithm to find the proper question of a users input
+ * License: See top folder / document root
  */
 
 // -- //
@@ -31,24 +34,27 @@ public class cSQLABCQuestionAnswerFinder extends cSQLAnswerFinder
 	// -- //
 	// -- || Run
 	// -- \\
-
 	@Override
 	public synchronized void run()
 	{
 		try
 		{
+			// set main tick so we know the start ms
 			this.setTickCount(System.currentTimeMillis());
 
-			String[] words                  = cSentenceUtils.splitSentenceIntoWords(cSentenceUtils.getDatabaseReadyString(this.getInput(), true));
+			// declare variables
+			String dbReadyString            = cSentenceUtils.getDatabaseReadyString(this.getInput(), true);
+			String[] words                  = cSentenceUtils.splitSentenceIntoWords(dbReadyString);
 			ArrayList<String> wordArray     = new ArrayList<String>(Arrays.asList(words));
-			String query                    = "SELECT * FROM ai_questions;";
+			String query                    = "SELECT * FROM " + cDatabase.TABLE_QUESTIONS_ASKABLE + ";";
 			ResultSet result                = cAISettings.getDatabase().createStatement().executeQuery(query);
 
 			int maxWordCount                = words.length;
 			int nearestWordCount            = 0;
-			int wordSensitivity             = 2; // Je Groesser diese Variable ist desto extacter wird deine Frage erkannt
+			int wordSensitivity             = 5; // Je Groesser diese Variable ist desto extacter wird deine Frage erkannt
 			int iQuestionCat                = 0;
 			int iQuestionID                 = 0;
+			int iResultGleichTo             = 0;
 			boolean bSpeakNow               = true;
 			boolean foundWord               = false;
 			String nearestSentence          = "";
@@ -57,15 +63,50 @@ public class cSQLABCQuestionAnswerFinder extends cSQLAnswerFinder
 			// Every Question
 			while((!foundWord) && (result.next())) // NICHT VERANDERN, ANSONSTEN IST ES MOEGLICH DASS DER NAECHSTE DATENSATZ GENOMMEN WIRD
 			{
+				// Current Word count of this question that matches with the input sentence
 				int curWordCount                = 0;
 
+				// Get the variables from the row
 				String curQuestion      = result.getString(2);
 				String[] questionWords  = cSentenceUtils.splitSentenceIntoWords(curQuestion);
 
-				for (int i = 0; i < questionWords.length; i++)
+				// Is it an exact hit?
+				if(curQuestion.equals(dbReadyString))
 				{
-					if(wordArray.contains(questionWords[i]))
+					// Excacter Treffer, jawoll
+					foundWord           = true;
+					nearestWordCount    = curWordCount;
+					nearestSentence     = curQuestion;
+
+					iQuestionCat        = result.getInt(3);
+					iQuestionID         = result.getInt(1);
+					iResultGleichTo     = result.getInt(4);
+				}
+				// No, so lets go
+				else
+				{
+					// Loop trough every word of this question in this row
+					for (int i = 0; i < questionWords.length; i++)
 					{
+						// Is the word in the input word array?
+						if (wordArray.contains(questionWords[i]))
+						{
+							// A match. Increase var
+							// This will be done with every match in this sentence
+							curWordCount++;
+
+							// Is the match higher than the one before?
+							if (curWordCount > nearestWordCount)
+							{
+								// Lets save this sentence, this is the nearest sentence available
+								nearestWordCount    = curWordCount;
+								nearestSentence     = curQuestion;
+
+								iQuestionCat        = result.getInt(3);
+								iQuestionID         = result.getInt(1);
+								iResultGleichTo     = result.getInt(4);
+							}
+						/*
 						curWordCount++;
 						if((curWordCount == maxWordCount) && (curWordCount > questionWords.length-wordSensitivity))
 						{
@@ -80,35 +121,51 @@ public class cSQLABCQuestionAnswerFinder extends cSQLAnswerFinder
 							{
 								nearestWordCount    = curWordCount;
 								nearestSentence     = curQuestion;
+								foundWord           = true;
 								System.out.println("Guessing: " + nearestSentence);
+								break;
 							}
 						}
+						*/
+						}
+						else
+						{
+							//	curWordCount = curWordCount-1;
+						}
 					}
-					else
+
+					// Is the current wordcount nothing somehow near to the base wordcount
+					if (maxWordCount - nearestWordCount > wordSensitivity)
 					{
-					//	curWordCount = curWordCount-1;
+						// Completly Rubbish, no question found
+						iResultGleichTo = 0;
+						nearestSentence = "";
 					}
 				}
 
-				iQuestionCat    = result.getInt(3);
-				iQuestionID     = result.getInt(1);
-				if (result.getInt(4) != 0)
+				// If the found question is equal to another question in the database
+				if(iResultGleichTo != 0)
 				{
 
-					iQuestionID             = result.getInt(4);
-					//iQuestionCat    = result.getInt(4);
-					ResultSet catResult     = cAISettings.getDatabase().createStatement().executeQuery("SELECT * FROM ai_questions WHERE iQuestionID = '" + result.getInt(4) + "';");
+					// Get the vars
+					iQuestionID             = iResultGleichTo;
+
+					// And the previous question
+					ResultSet catResult     = cAISettings.getDatabase().createStatement().executeQuery("SELECT * FROM " + cDatabase.TABLE_QUESTIONS_ASKABLE + " WHERE iQuestionID = '" + iQuestionID + "';");
 					catResult.next();
 					iQuestionCat            = catResult.getInt(3);
 				}
 			}
 
+			// Finally, is there a question found?
 			if(!nearestSentence.equals(""))
 			{
+				// Set it
 				this.setFoundQuestion(nearestSentence);
 			}
 			else
 			{
+				// Nope, lets give it a random answer
 				this.setAnswer(cSentenceUtils.putAINameIntoString(cAISettings.aiManager.getRandomSentenceFromCategory(2).getString(1)));
 			}
 
@@ -133,7 +190,7 @@ public class cSQLABCQuestionAnswerFinder extends cSQLAnswerFinder
 						if(iQuestionCat == 6) // Scriptet Question
 						{
 							bSpeakNow = false;
-							finder = new cSQLScriptedQuestionManager(this.getFoundQuestion(), iQuestionID);
+							finder = new cSQLScriptedQuestionManager(this.getFoundQuestion(), iQuestionID, this.getInput());
 						}
 					}
 					catch (Exception e)
@@ -155,7 +212,7 @@ public class cSQLABCQuestionAnswerFinder extends cSQLAnswerFinder
 			}
 
 			// Query MSG?
-			System.out.println("Query took " + this.getTickCountElapsed() / 1000 + " ms");
+			System.out.println("Query took " + this.getTickCountElapsed() + " ms");
 			System.out.println("<Question: " + this.getFoundQuestion() + ">");
 
 			// Speak?
@@ -177,5 +234,4 @@ public class cSQLABCQuestionAnswerFinder extends cSQLAnswerFinder
 			ex.printStackTrace();
 		}
 	}
-
 }

@@ -2,12 +2,16 @@ package me.noneat.myai.cmd;
 
 import me.noneat.myai.cAISettings;
 import me.noneat.myai.cMain;
+import me.noneat.myai.sql.cDatabase;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
  * Created by Noneatme on 12.08.2015.
+ * Version: 1.0.0
+ * Purpose: UserInput Class
+ * License: See top folder / document root
  */
 // -- //
 // -- || Class cUserInput
@@ -82,7 +86,7 @@ public class cUserInput
 				cMain.ai.setInput(this.sInput);
 
 				// Ssave the statement
-				PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO ai_userinput (sInput, iAnswerTo) VALUES (?, ?);");
+				PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO " + cDatabase.TABLE_USER_INPUT + " (sInput, iAnswerTo) VALUES (?, ?);");
 
 				try
 				{

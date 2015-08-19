@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 
 /**
  * Created by Noneatme on 12.08.2015.
+ * Version: 1.0.0
+ * Purpose: UserInputManager
+ * License: See top folder / document root
  */
 // -- //
 // -- || class UserInputManager

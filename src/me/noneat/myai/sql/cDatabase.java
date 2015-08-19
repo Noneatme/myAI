@@ -8,6 +8,9 @@ import java.sql.*;
 
 /**
  * Created by Noneatme on 12.08.2015.
+ * Version: 1.0.0
+ * Purpose: Manages the database connection
+ * License: See top folder / document root
  */
 // -- //
 // -- || cDatabase
@@ -20,6 +23,14 @@ public class cDatabase
 	private String m_sDatabaseFile;
 	private Connection con;
 	private Statement stat;
+
+	public static final String TABLE_QUESTIONS_ASKABLE              = "ai_questions_askable";
+	public static final String TABLE_QUESTIONS_CATEGORIES           = "ai_questions_categories";
+	public static final String TABLE_QUESTIONS_RESPONSES            = "ai_questions_responses";
+	public static final String TABLE_AI_SYSTEM                      = "ai_system";
+
+	public static final String TABLE_USER_INPUT                     = "ai_user_input";
+	public static final String TABLE_USER_INFORMATIONS              = "ai_user_informations";
 
 	// -- //
 	// -- || Constructor
@@ -147,7 +158,7 @@ public class cDatabase
 		try
 		{
 			// CHECK SYSTEM
-			ResultSet rSystem = this.executeQuery("SELECT * FROM ai_system;");
+			ResultSet rSystem = this.executeQuery("SELECT * FROM " + cDatabase.TABLE_AI_SYSTEM + ";");
 			rSystem.next();
 
 			// APPLY VARS

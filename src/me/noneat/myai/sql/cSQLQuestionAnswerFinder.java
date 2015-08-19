@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 /**
  * Created by Noneatme on 17.08.2015.
+ * Purpose: The search algorithm to find the proper question of a users input
+ * Version: 1.0.0
+ * License: See top folder / document root
  */
 
 // -- //
@@ -41,7 +44,7 @@ public class cSQLQuestionAnswerFinder extends cSQLAnswerFinder
 
 			String[] words = cSentenceUtils.splitSentenceIntoWords(this.getInput());
 
-			String query = "SELECT * FROM ai_questions WHERE ";
+			String query = "SELECT * FROM " + cDatabase.TABLE_QUESTIONS_ASKABLE + " WHERE ";
 
 		/*
 		String query        = "SELECT * FROM ai_questions WHERE ";

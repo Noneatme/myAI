@@ -1,8 +1,10 @@
 package me.noneat.myai.ai;
 
 import me.noneat.myai.cAISettings;
+import me.noneat.myai.sql.cDatabase;
 import me.noneat.myai.sql.cSQLABCQuestionAnswerFinder;
 import me.noneat.myai.sql.cSQLQuestionAnswerFinder;
+import me.noneat.myai.sql.cSQLStatementAnswerFinder;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +12,9 @@ import java.sql.SQLException;
 
 /**
  * Created by Noneatme on 12.08.2015.
+ * Purpose: The main AI and it's behaviour
+ * Version: 1.0.0
+ * License: See top folder / document root
  */
 
 // -- //
@@ -107,20 +112,20 @@ public class cAI extends Thread
 						iAnswerType = 2;
 						this.iLearnStatusMode = 1;
 
-						ResultSet searchResultFirst 		= cAISettings.getDatabase().executeQuery("SELECT sQuestion, iQuestionID FROM ai_questions WHERE sQuestion = '" + sToSave + "' LIMIT 1;");
+						ResultSet searchResultFirst 		= cAISettings.getDatabase().executeQuery("SELECT sQuestion, iQuestionID FROM " + cDatabase.TABLE_QUESTIONS_ASKABLE + " WHERE sQuestion = '" + sToSave + "' LIMIT 1;");
 						if(searchResultFirst.next())
 						{
 							this.iLearnModeLastInsertID 		= searchResultFirst.getInt(2);
 						}
 						else
 						{
-							PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO ai_questions (sQuestion) VALUES (?);");
+							PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO " + cDatabase.TABLE_QUESTIONS_ASKABLE + "(sQuestion) VALUES (?);");
 							stm.setString(1, sToSave);
 							cAISettings.getDatabase().executeStatement(stm);
 
 							// TODO: GET_LAST_INSERT_ID();
 							// TODO DONE
-							ResultSet result 					= cAISettings.getDatabase().executeQuery("SELECT last_insert_rowid() FROM ai_questions;");
+							ResultSet result 					= cAISettings.getDatabase().executeQuery("SELECT last_insert_rowid() FROM " + cDatabase.TABLE_QUESTIONS_ASKABLE + ";");
 							this.iLearnModeLastInsertID 		= Integer.parseInt(result.getString(1));
 						}
 						System.out.println("Response to: " + this.iLearnModeLastInsertID);
@@ -132,7 +137,7 @@ public class cAI extends Thread
 					{
 						// TODO:
 						String sToSave = cSentenceUtils.getDatabaseReadyString(sInput, false);
-						PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO ai_responses (sText, iQuestionType, iCategory, iAnswerTo) VALUES (?, ?, ?, ?);");
+						PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO " + cDatabase.TABLE_QUESTIONS_RESPONSES + " (sText, iQuestionType, iCategory, iAnswerTo) VALUES (?, ?, ?, ?);");
 						stm.setString(1, sToSave);
 						stm.setInt(2, 0);
 						stm.setInt(3, 4);
@@ -221,7 +226,8 @@ public class cAI extends Thread
 	// -- \\
 	public void speak()
 	{
-		System.err.println(this.sNextAnswer);
+		if(this.sNextAnswer != null)
+			System.err.println(this.sNextAnswer);
 		// NOTE: This can cause some issues on the closeHandler to perform the automatic termination process.
 		cAISettings.closeHandler.resetCloseHandlerRequest();
 	}
@@ -275,6 +281,8 @@ public class cAI extends Thread
 	public String getStatementAnswer(String sQuestion, int iCategory)
 	{
 		String sAnswer = null;
+		cSQLStatementAnswerFinder finder = new cSQLStatementAnswerFinder(sQuestion);
+		finder.start();
 		return sAnswer;
 	}
 

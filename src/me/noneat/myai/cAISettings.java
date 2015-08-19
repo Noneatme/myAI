@@ -8,6 +8,9 @@ import me.noneat.myai.util.cConsoleUtil;
 
 /**
  * Created by Noneatme on 12.08.2015.
+ * Version: 1.0.0
+ * Purpose: AI Settings
+ * License: See top folder / document root
  */
 // -- //
 // -- || Class AI Settings

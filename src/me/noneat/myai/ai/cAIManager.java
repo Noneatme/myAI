@@ -1,12 +1,16 @@
 package me.noneat.myai.ai;
 
 import me.noneat.myai.cAISettings;
+import me.noneat.myai.sql.cDatabase;
 
 import java.sql.ResultSet;
 
 
 /**
  * Created by Noneatme on 13.08.2015.
+ * Version: 1.0.0
+ * Purpose: Manages the AI's classes and behaviour
+ * License: See top folder / document root
  */
 public class cAIManager
 {
@@ -28,7 +32,7 @@ public class cAIManager
 	// -- \\
 	private void loadCategories()
 	{
-		this.categories = cAISettings.getDatabase().executeQuery("SELECT * FROM ai_categories;");
+		this.categories = cAISettings.getDatabase().executeQuery("SELECT * FROM " + cDatabase.TABLE_QUESTIONS_CATEGORIES + ";");
 
 	}
 
@@ -41,7 +45,7 @@ public class cAIManager
 
 		try
 		{
-			ResultSet result = cAISettings.getDatabase().createStatement().executeQuery("SELECT sText, iResponseID FROM ai_responses WHERE iCategory = '" + category + "' ORDER BY RANDOM() LIMIT 1;");
+			ResultSet result = cAISettings.getDatabase().createStatement().executeQuery("SELECT sText, iResponseID FROM " + cDatabase.TABLE_QUESTIONS_RESPONSES + " WHERE iCategory = '" + category + "' ORDER BY RANDOM() LIMIT 1;");
 
 			if(!result.isClosed())
 				return result;
@@ -62,7 +66,7 @@ public class cAIManager
 
 		try
 		{
-			ResultSet result = cAISettings.getDatabase().executeQuery("SELECT sText, iCategory, iAnswerTo FROM ai_responses WHERE iAnswerTo = '" + response + "' ORDER BY RANDOM() LIMIT 1;");
+			ResultSet result = cAISettings.getDatabase().executeQuery("SELECT sText, iCategory, iAnswerTo FROM " + cDatabase.TABLE_QUESTIONS_RESPONSES + " WHERE iAnswerTo = '" + response + "' ORDER BY RANDOM() LIMIT 1;");
 			return result;
 		}
 		catch(Exception ex)

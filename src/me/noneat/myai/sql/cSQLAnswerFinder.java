@@ -2,6 +2,9 @@ package me.noneat.myai.sql;
 
 /**
  * Created by Noneatme on 17.08.2015.
+ * Version: 1.0.0
+ * Purpose: Mother Class of the AnswerFinder Instances
+ * License: See top folder / document root
  */
 
 // -- //

@@ -2,14 +2,27 @@ package me.noneat.myai.ai;
 
 import me.noneat.myai.cMain;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Noneatme on 13.08.2015.
+ * Version: 1.0.0
+ * Purpose: SentenceUtils
+ * License: See top folder / document root
  */
 // -- //
 // -- || Class: SentenceUtils
 // -- \\
 public class cSentenceUtils
 {
+
+	public static ArrayList<String>  pastSentenceWords = new ArrayList<>(Arrays.asList(
+			"please",
+			"fast please"
+	));
+
 	// -- //
 	// -- || hasSentenceQuestionmark
 	// -- \\
@@ -90,8 +103,14 @@ public class cSentenceUtils
 		{
 			// TODO: APPLY CASE SENSITIVE OPTION FOR OUTPUT INTO LEARN MODE
 			sString = sString.toLowerCase();
+			sString = sString.replaceAll("[-+.^:,?']", "");
 
-			return sString.replaceAll("[-+.^:,?]", "");
+			for(int i = 0; i < pastSentenceWords.size(); i++)
+			{
+				sString = sString.replaceAll(pastSentenceWords.get(i), "");
+			}
+
+			return sString;
 		}
 		return sString;
 	}
