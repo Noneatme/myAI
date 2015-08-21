@@ -1,5 +1,6 @@
 package me.noneat.myai.cmd;
 
+import me.noneat.myai.ai.cAI;
 import me.noneat.myai.cAISettings;
 import me.noneat.myai.cMain;
 import me.noneat.myai.sql.cDatabase;
@@ -42,7 +43,7 @@ public class cUserInput
 			case "-help":
 				System.out.println("Available Commands:\n" +
 									"-help: Displays the help\n" +
-									"-learn: Toggles the learn mode on / off\n" +
+									"-learn: Toggles the question learn mode on / off\n" +
 									"-exit, -CTRL^C, -quit: Terminates the application\n" +
 									"-abort: Aborts the curent sentence in the learnmode\n");
 				break;
@@ -50,6 +51,11 @@ public class cUserInput
 			case "-learn":
 			case "-learn_mode":
 				// Activate Leaarn mode
+				cMain.ai.setCurLearnModeType(cAI.LEARN_MODES.LEARN_MODE_QUESTIONS);
+				cMain.ai.setLearnMode(!cMain.ai.getLearnMode());
+				break;
+			case "-learn_state":
+				cMain.ai.setCurLearnModeType(cAI.LEARN_MODES.LEARN_MODE_SENTENCES);
 				cMain.ai.setLearnMode(!cMain.ai.getLearnMode());
 				break;
 			// Exit //

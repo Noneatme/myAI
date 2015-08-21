@@ -36,10 +36,10 @@ public class cSQLScriptedQuestionManager extends cSQLAnswerFinder
 	@Override
 	public synchronized void run()
 	{
-		String useString = this.sInput;
-		useString = cSentenceUtils.getDatabaseReadyString(useString, true);
-		useString = useString.replace("can you search for ", "");
-		useString = useString.replace("what is ", "");
+		String useString        = this.sInput;
+		useString               = cSentenceUtils.getDatabaseReadyString(useString, true);
+		useString               = useString.replace("can you search for ", "");
+		useString               = useString.replace("what is ", "");
 
 		switch(this.iID)
 		{

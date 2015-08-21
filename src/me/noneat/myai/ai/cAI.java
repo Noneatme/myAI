@@ -26,7 +26,7 @@ public class cAI extends Thread
 	// -- //
 	// -- || PVars
 	// -- \\
-	protected final String VERSION = "0.0.1";
+	protected final String VERSION          = "0.0.1";
 
 	private String sDateCreated     		= null;
 	private String sName            		= null;
@@ -40,9 +40,18 @@ public class cAI extends Thread
 	private int iLastResponseID    		 	= 0;
 	private boolean bLearnMode      		= false;
 
+	private LEARN_MODES curLearnMode;
+
 	private int iLearnStatusMode    		= 0;
 	private int iLearnModeLastInsertID 		= 0;
 
+	// -- //
+	// -- || Enums
+	// -- \\
+	public enum LEARN_MODES
+	{
+		LEARN_MODE_SENTENCES, LEARN_MODE_QUESTIONS;
+	}
 
 	// -- //
 	// -- || Constructor
@@ -100,17 +109,16 @@ public class cAI extends Thread
 			if(this.getLearnMode())
 			{
 				// Question and Learn Status Mode = Reday?
-				if(question && this.iLearnStatusMode == 0)
+				if(question && this.iLearnStatusMode == 0 && (this.getCurLearnModeType() == LEARN_MODES.LEARN_MODE_QUESTIONS))
 				{
 					// Ready?
 					if (this.iLearnStatusMode == 0)  // A Question
 					{
+						String sToSave              = cSentenceUtils.getDatabaseReadyString(sInput, true);
 
-						String sToSave = cSentenceUtils.getDatabaseReadyString(sInput, true);
-
-						sAnswer = "How should I answer this question: " + sToSave;
-						iAnswerType = 2;
-						this.iLearnStatusMode = 1;
+						sAnswer                     = "How should I answer this question: " + sToSave;
+						iAnswerType                 = 2;
+						this.iLearnStatusMode       = 1;
 
 						ResultSet searchResultFirst 		= cAISettings.getDatabase().executeQuery("SELECT sQuestion, iQuestionID FROM " + cDatabase.TABLE_QUESTIONS_ASKABLE + " WHERE sQuestion = '" + sToSave + "' LIMIT 1;");
 						if(searchResultFirst.next())
@@ -133,24 +141,74 @@ public class cAI extends Thread
 				}
 				else
 				{
-					if(this.iLearnStatusMode == 1) //
+					if(this.getCurLearnModeType() == LEARN_MODES.LEARN_MODE_SENTENCES)
 					{
-						// TODO:
-						String sToSave = cSentenceUtils.getDatabaseReadyString(sInput, false);
-						PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO " + cDatabase.TABLE_QUESTIONS_RESPONSES + " (sText, iQuestionType, iCategory, iAnswerTo) VALUES (?, ?, ?, ?);");
-						stm.setString(1, sToSave);
-						stm.setInt(2, 0);
-						stm.setInt(3, 4);
-						stm.setInt(4, this.iLearnModeLastInsertID);
+						// Ready?
+						if (this.iLearnStatusMode == 0)  // A Statement
+						{
+							String sToSave = cSentenceUtils.getDatabaseReadyString(sInput, true);
 
-						cAISettings.getDatabase().executeStatement(stm);
+							sAnswer = "How should I answer this statement: " + sToSave;
+							iAnswerType = 2;
+							this.iLearnStatusMode = 1;
 
-						System.out.println("Saved: " + sToSave);
-						sAnswer = "Ok, Saved. Type in -ABORT to cancel this question answers to implement a next question";
-						iAnswerType = 1;
-						this.iLearnStatusMode = 1;
+							ResultSet searchResultFirst = cAISettings.getDatabase().executeQuery("SELECT sStatement, iID FROM " + cDatabase.TABLE_STATEMENT_SENTENCES + " WHERE sStatement = '" + sToSave + "' LIMIT 1;");
+							if (searchResultFirst.next())
+							{
+								this.iLearnModeLastInsertID = searchResultFirst.getInt(2);
+							}
+							else
+							{
+								PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO " + cDatabase.TABLE_STATEMENT_SENTENCES + "(sStatement) VALUES (?);");
+								stm.setString(1, sToSave);
+								cAISettings.getDatabase().executeStatement(stm);
 
+								// TODO: GET_LAST_INSERT_ID();
+								// TODO DONE
+								ResultSet result = cAISettings.getDatabase().executeQuery("SELECT last_insert_rowid() FROM " + cDatabase.TABLE_STATEMENT_SENTENCES + ";");
+								this.iLearnModeLastInsertID = Integer.parseInt(result.getString(1));
+							}
+							System.out.println("Response to sentence: " + this.iLearnModeLastInsertID);
+						}
+						else if(this.iLearnStatusMode == 1)
+						{
+
+							String sToSave = cSentenceUtils.getDatabaseReadyString(sInput, false);
+							PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO " + cDatabase.TABLE_STATEMENT_RESPONSES + " (sAnswer, iCategory, iAnswerTo) VALUES (?, ?, ?);");
+							stm.setString(1, sToSave);
+							stm.setInt(2, 2);
+							stm.setInt(3, this.iLearnModeLastInsertID);
+
+							cAISettings.getDatabase().executeStatement(stm);
+
+							System.out.println("Saved: " + sToSave);
+							sAnswer = "Ok, Saved Statement. Type in -ABORT to cancel this statement answers to implement a next statement";
+							iAnswerType = 1;
+							this.iLearnStatusMode = 1;
+						}
 					}
+					else
+					{
+						if (this.iLearnStatusMode == 1) //
+						{
+							// TODO:
+							String sToSave = cSentenceUtils.getDatabaseReadyString(sInput, false);
+							PreparedStatement stm = cAISettings.getDatabase().createPreparedStatement("INSERT INTO " + cDatabase.TABLE_QUESTIONS_RESPONSES + " (sText, iQuestionType, iCategory, iAnswerTo) VALUES (?, ?, ?, ?);");
+							stm.setString(1, sToSave);
+							stm.setInt(2, 0);
+							stm.setInt(3, 4);
+							stm.setInt(4, this.iLearnModeLastInsertID);
+
+							cAISettings.getDatabase().executeStatement(stm);
+
+							System.out.println("Saved: " + sToSave);
+							sAnswer = "Ok, Saved. Type in -ABORT to cancel this question answers to implement a next question";
+							iAnswerType = 1;
+							this.iLearnStatusMode = 1;
+
+						}
+					}
+
 				}
 			}
 			else
@@ -425,4 +483,19 @@ public class cAI extends Thread
 		return true;
 	}
 
+	// -- //
+	// -- || getCurLearnModeType
+	// -- \\
+	public LEARN_MODES getCurLearnModeType()
+	{
+		return curLearnMode;
+	}
+
+	// -- //
+	// -- || getCurLearnModeType
+	// -- \\
+	public void setCurLearnModeType(LEARN_MODES curLearnMode)
+	{
+		this.curLearnMode = curLearnMode;
+	}
 }

@@ -44,14 +44,14 @@ public class cSQLABCQuestionAnswerFinder extends cSQLAnswerFinder
 
 			// declare variables
 			String dbReadyString            = cSentenceUtils.getDatabaseReadyString(this.getInput(), true);
-			String[] words                  = cSentenceUtils.splitSentenceIntoWords(dbReadyString);
+			String[] words                  = cSentenceUtils.splitSentenceIntoWords(dbReadyString.toLowerCase());
 			ArrayList<String> wordArray     = new ArrayList<String>(Arrays.asList(words));
 			String query                    = "SELECT * FROM " + cDatabase.TABLE_QUESTIONS_ASKABLE + ";";
 			ResultSet result                = cAISettings.getDatabase().createStatement().executeQuery(query);
 
-			int maxWordCount                = words.length;
+			int maxWordCount                = words.length;         // Max Input Words
 			int nearestWordCount            = 0;
-			int wordSensitivity             = 5; // Je Groesser diese Variable ist desto extacter wird deine Frage erkannt
+			int wordSensitivity             = 2; // Je Groesser diese Variable ist desto extacter wird deine Frage erkannt
 			int iQuestionCat                = 0;
 			int iQuestionID                 = 0;
 			int iResultGleichTo             = 0;
@@ -88,24 +88,27 @@ public class cSQLABCQuestionAnswerFinder extends cSQLAnswerFinder
 					// Loop trough every word of this question in this row
 					for (int i = 0; i < questionWords.length; i++)
 					{
-						// Is the word in the input word array?
-						if (wordArray.contains(questionWords[i]))
+						if (!foundWord)
 						{
-							// A match. Increase var
-							// This will be done with every match in this sentence
-							curWordCount++;
-
-							// Is the match higher than the one before?
-							if (curWordCount > nearestWordCount)
+							// Is the word in the input word array?
+							if (wordArray.contains(questionWords[i].toLowerCase()))
 							{
-								// Lets save this sentence, this is the nearest sentence available
-								nearestWordCount    = curWordCount;
-								nearestSentence     = curQuestion;
+							//	System.out.println(curQuestion + ", Contains: " + questionWords[i]);
+								// A match. Increase var
+								// This will be done with every match in this sentence
+								curWordCount++;
 
-								iQuestionCat        = result.getInt(3);
-								iQuestionID         = result.getInt(1);
-								iResultGleichTo     = result.getInt(4);
-							}
+								// Is the match higher than the one before?
+								if (curWordCount > nearestWordCount)
+								{
+									// Lets save this sentence, this is the nearest sentence available
+									nearestWordCount = curWordCount;
+									nearestSentence = curQuestion;
+
+									iQuestionCat = result.getInt(3);
+									iQuestionID = result.getInt(1);
+									iResultGleichTo = result.getInt(4);
+								}
 						/*
 						curWordCount++;
 						if((curWordCount == maxWordCount) && (curWordCount > questionWords.length-wordSensitivity))
@@ -127,21 +130,23 @@ public class cSQLABCQuestionAnswerFinder extends cSQLAnswerFinder
 							}
 						}
 						*/
+							}
+							else
+							{
+								//	curWordCount = curWordCount-1;
+							}
+							// Is the current wordcount nothing somehow near to the base wordcount
+							if ((maxWordCount - nearestWordCount) > wordSensitivity)
+							{
+								// Completly Rubbish, no question found
+								iResultGleichTo = 0;
+								nearestSentence = "";
+							}
 						}
-						else
-						{
-							//	curWordCount = curWordCount-1;
-						}
-					}
 
-					// Is the current wordcount nothing somehow near to the base wordcount
-					if (maxWordCount - nearestWordCount > wordSensitivity)
-					{
-						// Completly Rubbish, no question found
-						iResultGleichTo = 0;
-						nearestSentence = "";
 					}
 				}
+				// MaxWordCount
 
 				// If the found question is equal to another question in the database
 				if(iResultGleichTo != 0)

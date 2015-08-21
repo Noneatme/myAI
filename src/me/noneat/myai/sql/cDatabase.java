@@ -3,7 +3,10 @@ package me.noneat.myai.sql;
 import me.noneat.myai.cAISettings;
 import me.noneat.myai.cMain;
 
-import javax.swing.*;
+import static java.nio.file.StandardCopyOption.*;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.*;
 
 /**
@@ -24,40 +27,51 @@ public class cDatabase
 	private Connection con;
 	private Statement stat;
 
+	public static final String DB_TYPE                              = "sqlite"; // Change to MySQL if you want a MySQL Server instaed
+
 	public static final String TABLE_QUESTIONS_ASKABLE              = "ai_questions_askable";
 	public static final String TABLE_QUESTIONS_CATEGORIES           = "ai_questions_categories";
 	public static final String TABLE_QUESTIONS_RESPONSES            = "ai_questions_responses";
 	public static final String TABLE_AI_SYSTEM                      = "ai_system";
 
-	public static final String TABLE_USER_INPUT                     = "ai_user_input";
-	public static final String TABLE_USER_INFORMATIONS              = "ai_user_informations";
+	public static final String TABLE_USER_INPUT                     = "user_input";
+	public static final String TABLE_USER_INFORMATIONS              = "user_informations";
+
+	public static final String TABLE_STATEMENT_CATEGORIES           = "ai_statement_categories";
+	public static final String TABLE_STATEMENT_SENTENCES            = "ai_statement_sentences";
+	public static final String TABLE_STATEMENT_RESPONSES            = "ai_statement_responses";
 
 	// -- //
 	// -- || Constructor
 	// -- \\
 	public cDatabase(String sDatabaseFile)
 	{
-		this.m_sDatabaseFile = sDatabaseFile;
-		try
+		switch(cDatabase.DB_TYPE)
 		{
-			Class.forName("org.sqlite.JDBC");
-			try
-			{
-				this.con = DriverManager.getConnection("jdbc:sqlite:" + this.m_sDatabaseFile);
-				if(this.stat == null || this.stat.isClosed())
-					stat = this.con.createStatement();
+			case "sqlite":
+				this.m_sDatabaseFile = sDatabaseFile;
+				try
+				{
+					Class.forName("org.sqlite.JDBC");
+					try
+					{
+						this.con = DriverManager.getConnection("jdbc:sqlite:" + this.m_sDatabaseFile);
+						if(this.stat == null || this.stat.isClosed())
+							stat = this.con.createStatement();
 
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
-			}
-		}
-		catch(Exception ex)
-		{
-			System.err.println("SQLite Database Library is missing!");
-			ex.printStackTrace();
-			cMain.abort();
+					}
+					catch(Exception ex)
+					{
+						ex.printStackTrace();
+					}
+				}
+				catch(Exception ex)
+				{
+					System.err.println("SQLite Database Library is missing!");
+					ex.printStackTrace();
+					cMain.abort();
+				}
+				break;
 		}
 	}
 

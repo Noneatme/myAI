@@ -14,11 +14,12 @@ import java.sql.ResultSet;
  */
 public class cAIManager
 {
+
 	// -- //
 	// -- || PVars
 	// -- \\
-	private ResultSet categories;
-
+	private ResultSet QUESTION_CATEGORIES;
+	private ResultSet STATEMENT_CATEGORIES;
 	// -- //
 	// -- || Constructor
 	// -- \\
@@ -32,8 +33,8 @@ public class cAIManager
 	// -- \\
 	private void loadCategories()
 	{
-		this.categories = cAISettings.getDatabase().executeQuery("SELECT * FROM " + cDatabase.TABLE_QUESTIONS_CATEGORIES + ";");
-
+		this.QUESTION_CATEGORIES = cAISettings.getDatabase().executeQuery("SELECT * FROM " + cDatabase.TABLE_QUESTIONS_CATEGORIES + ";");
+		this.STATEMENT_CATEGORIES   = cAISettings.getDatabase().executeQuery("SELECT * FROM " + cDatabase.TABLE_STATEMENT_CATEGORIES + ";");
 	}
 
 	// -- //
@@ -67,6 +68,46 @@ public class cAIManager
 		try
 		{
 			ResultSet result = cAISettings.getDatabase().executeQuery("SELECT sText, iCategory, iAnswerTo FROM " + cDatabase.TABLE_QUESTIONS_RESPONSES + " WHERE iAnswerTo = '" + response + "' ORDER BY RANDOM() LIMIT 1;");
+			return result;
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return sentence;
+	}
+	// -- //
+	// -- || getRandomSentenceFromCategory
+	// -- \\
+	public ResultSet getRandomStatementSentenceFromCategory(int category)
+	{
+		ResultSet sentence = null;
+
+		try
+		{
+			ResultSet result = cAISettings.getDatabase().createStatement().executeQuery("SELECT sAnswer, iCategory FROM " + cDatabase.TABLE_STATEMENT_RESPONSES + " WHERE iCategory = '" + category + "' ORDER BY RANDOM() LIMIT 1;");
+
+			if(!result.isClosed())
+				return result;
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return sentence;
+	}
+
+	// -- //
+	// -- || getRandomSentenceFromResponses
+	// -- \\
+	public ResultSet getRandomStatementSentenceFromResponses(int response)
+	{
+		ResultSet sentence = null;
+
+		try
+		{
+			ResultSet result = cAISettings.getDatabase().executeQuery("SELECT sAnswer, iCategory, iAnswerTo FROM " + cDatabase.TABLE_STATEMENT_RESPONSES + " WHERE iAnswerTo = '" + response + "' ORDER BY RANDOM() LIMIT 1;");
+
 			return result;
 		}
 		catch(Exception ex)
