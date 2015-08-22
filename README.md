@@ -1,5 +1,9 @@
 
 # myAI / Soupe
+
+![logo](http://i.imgur.com/KNQeRuR.png)
+
+
 A learning AI that can talk to you and answer your questions.
 
 (was: Chappie, now: Soupe)
