@@ -30,18 +30,24 @@ public class cConsoleUtil
 	// -- \\
 	public boolean setLoadingState(boolean bBool)
 	{
-		if((bBool == true && this.m_bLoadingSpinEnabled) || (bBool == false && !this.m_bLoadingSpinEnabled))
+		if(((bBool == true) && (this.m_bLoadingSpinEnabled)) || ((bBool == false) && (!this.m_bLoadingSpinEnabled)))
 			return false;
 
 		this.m_bLoadingSpinEnabled = bBool;
 
-
 		try
 		{
 			if (this.m_bLoadingSpinEnabled)
+			{
+				this.wheel = new cLoadingSpinWheel();
 				this.wheel.start();
+			}
 			else
+			{
 				this.wheel.interrupt();
+				System.out.println();
+
+			}
 		}
 		catch(java.lang.IllegalThreadStateException ex)
 		{

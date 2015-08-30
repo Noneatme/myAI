@@ -20,13 +20,15 @@ public class cAISettings
 	// -- //
 	// -- || PVArs
 	// -- \\
-	public static String VERSION            = "0.0.1";
-	public static boolean DEBUG             = true;
+	public static String APPLICATION_NAME   = "myAI / Soupe";
+	public static String VERSION            = "0.0.2";
 	public static String DATABASE_PATH      = "main.db";
+	public static boolean DEBUG             = true;
 	public static boolean USE_ASCII_CHARS   = false;
-	public static long TERMINATE_IDLE_TIME  = 20000;
-
 	protected static boolean instanced      = false;
+	public static long TERMINATE_IDLE_TIME  = 20000;
+	public static boolean USE_GUI           = true;     // Change this to false if you want the console output instead
+														// Useful for debugging
 
 	// -- //
 	// -- || Singleton Instances
@@ -59,9 +61,12 @@ public class cAISettings
 			System.out.println(closeHandler.getState());
 		}
 	}
-
+	// -- //
+	// -- || getDatabase
+	// -- \\
 	public static cDatabase getDatabase()
 	{
 		return database;
 	}
 }
+

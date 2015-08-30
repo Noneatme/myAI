@@ -1,7 +1,10 @@
 package me.noneat.myai;
 
 import com.sun.org.apache.xpath.internal.SourceTree;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import me.noneat.myai.ai.cAI;
+import me.noneat.myai.gui.cAIChatWindow;
 
 import java.sql.SQLException;
 
@@ -12,7 +15,7 @@ import java.sql.SQLException;
 // -- //
 // -- || cMain
 // -- \\
-public class cMain
+public class cMain extends Application
 {
 	// -- //
 	// -- || PVars
@@ -48,6 +51,9 @@ public class cMain
 		// Everything loaded
 		cAISettings.consoleUtil.setLoadingState(false);
 		//cMain.ai.setLearnMode(true);
+
+
+		launch();
 	}
 
 	// -- //
@@ -71,5 +77,13 @@ public class cMain
 
 		// Exit
 		System.exit(0);
+	}
+
+	// JAVAFX CLASS //
+	@Override
+	public void start(Stage primaryStage) throws Exception
+	{
+		Application app = new cAIChatWindow();
+		app.start(primaryStage);
 	}
 }

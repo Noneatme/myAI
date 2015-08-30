@@ -288,6 +288,7 @@ public class cAI extends Thread
 			System.err.println(this.sNextAnswer);
 		// NOTE: This can cause some issues on the closeHandler to perform the automatic termination process.
 		cAISettings.closeHandler.resetCloseHandlerRequest();
+		cAISettings.consoleUtil.setLoadingState(false);
 	}
 
 	// -- //

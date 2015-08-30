@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="myAI">
+    <output-path>$PROJECT_DIR$/out/artifacts/myAI</output-path>
+    <properties id="ant-preprocessing">
+      <options enabled="true" />
+    </properties>
+    <root id="archive" name="myAI.jar">
+      <element id="module-output" name="MyAI" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="extracted-dir" path="$PROJECT_DIR$/assets/sqlite-jdbc-3.8.11.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/assets/jsoup-1.8.3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
