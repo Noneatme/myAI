@@ -20,7 +20,6 @@ public class cAISettings
 	// -- //
 	// -- || PVArs
 	// -- \\
-<<<<<<< HEAD
 	public static final String APPLICATION_NAME     = "myAI / Soupe";   // Program name
 	public static String VERSION                    = "0.0.2";          // Program version
 	public static String DATABASE_PATH              = "main.db";        // The database path
@@ -30,17 +29,6 @@ public class cAISettings
 	public static long TERMINATE_IDLE_TIME          = 20000*60*1000;         // Time in MS when the app will be killed
 	public static boolean USE_GUI                   = false;            // Change this to false if you want the console output instead
 																		// Useful for debugging
-=======
-	public static String APPLICATION_NAME   = "myAI / Soupe";
-	public static String VERSION            = "0.0.2";
-	public static String DATABASE_PATH      = "main.db";
-	public static boolean DEBUG             = true;
-	public static boolean USE_ASCII_CHARS   = false;
-	protected static boolean instanced      = false;
-	public static long TERMINATE_IDLE_TIME  = 20000;
-	public static boolean USE_GUI           = true;     // Change this to false if you want the console output instead
-														// Useful for debugging
->>>>>>> origin/master
 
 	// -- //
 	// -- || Singleton Instances
@@ -77,10 +65,7 @@ public class cAISettings
 			System.out.println(closeHandler.getState());
 		}
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 	// -- //
 	// -- || getDatabase
 	// -- \\
