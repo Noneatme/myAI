@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<BorderPane maxHeight="1080.0" maxWidth="1920.0" minHeight="430.0" minWidth="690.0" prefHeight="430.0" prefWidth="690.0"
+            xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <TabPane id="tabpane1" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
+                 BorderPane.alignment="CENTER">
+            <tabs>
+                <Tab id="tab-wetter" text="Wetter">
+                    <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                            <center>
+                                <Accordion BorderPane.alignment="CENTER">
+                                    <panes>
+                                        <TitledPane animated="true" text="Einstellungen">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                            prefWidth="200.0">
+                                                    <children>
+                                                        <Label layoutX="14.0" layoutY="23.0" prefHeight="17.0"
+                                                               prefWidth="115.0" text="Standort:"/>
+                                                        <TextField layoutX="139.0" layoutY="19.0" prefHeight="25.0"
+                                                                   prefWidth="160.0"/>
+                                                        <Label layoutX="14.0" layoutY="60.0"
+                                                               text="Aktualisierungsrate:"/>
+                                                        <TextField layoutX="139.0" layoutY="56.0" prefHeight="25.0"
+                                                                   prefWidth="160.0"/>
+                                                        <Button layoutX="14.0" layoutY="281.0" mnemonicParsing="false"
+                                                                prefHeight="25.0" prefWidth="154.0" text="Uebernehmen"
+                                                                textOverrun="CENTER_ELLIPSIS">
+                                                            <textFill>
+                                                                <LinearGradient endX="1.0" endY="1.0">
+                                                                    <stops>
+                                                                        <Stop color="BLACK"/>
+                                                                        <Stop color="#d03131" offset="1.0"/>
+                                                                    </stops>
+                                                                </LinearGradient>
+                                                            </textFill>
+                                                        </Button>
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </TitledPane>
+                                        <TitledPane animated="true" text="Wetter">
+                                            <content>
+                                                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                                    <center>
+                                                        <WebView id="webview-weather2" prefHeight="314.0"
+                                                                 prefWidth="599.0" BorderPane.alignment="CENTER"/>
+                                                    </center>
+                                                </BorderPane>
+                                            </content>
+                                        </TitledPane>
+                                    </panes>
+                                </Accordion>
+                            </center>
+                        </BorderPane>
+                    </content>
+                </Tab>
+                <Tab id="tab-kalender" text="Kalender">
+                    <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                            <center>
+                                <WebView id="browser-kalendar" prefHeight="200.0" prefWidth="200.0"
+                                         BorderPane.alignment="CENTER"/>
+                            </center>
+                        </BorderPane>
+                    </content>
+                </Tab>
+                <Tab id="tab-myai" text="MyAI">
+                    <content>
+                        <SplitPane dividerPositions="0.8814016172506739" orientation="VERTICAL" prefHeight="200.0"
+                                   prefWidth="160.0">
+                            <items>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                    <children>
+                                        <BorderPane layoutX="200.0" layoutY="62.0" prefHeight="324.0" prefWidth="600.0"
+                                                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <center>
+                                                <TextArea id="textarea-myai" prefHeight="200.0" prefWidth="200.0"
+                                                          BorderPane.alignment="CENTER"/>
+                                            </center>
+                                        </BorderPane>
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                    <children>
+                                        <BorderPane layoutX="200.0" layoutY="-79.0" prefHeight="41.0" prefWidth="600.0"
+                                                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <center>
+                                                <TextField id="textfield-myai" prefHeight="27.0" prefWidth="575.0"
+                                                           BorderPane.alignment="CENTER">
+                                                    <padding>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                    </padding>
+                                                </TextField>
+                                            </center>
+                                            <left>
+                                                <Label prefHeight="17.0" prefWidth="62.0" text="Schreiben:"
+                                                       BorderPane.alignment="CENTER">
+                                                    <padding>
+                                                        <Insets left="2.0" right="2.0"/>
+                                                    </padding>
+                                                </Label>
+                                            </left>
+                                        </BorderPane>
+                                    </children>
+                                </AnchorPane>
+                            </items>
+                        </SplitPane>
+                    </content>
+                </Tab>
+                <Tab id="tab-radio" text="Radio">
+                    <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                            <center>
+                                <SplitPane dividerPositions="0.2959866220735786" prefHeight="381.0" prefWidth="639.0"
+                                           BorderPane.alignment="CENTER">
+                                    <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                            <children>
+                                                <BorderPane layoutX="-13.0" layoutY="85.0" prefHeight="369.0"
+                                                            prefWidth="174.0" AnchorPane.bottomAnchor="0.0"
+                                                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                            AnchorPane.topAnchor="0.0">
+                                                    <center>
+                                                        <GridPane prefHeight="372.0" prefWidth="199.0"
+                                                                  BorderPane.alignment="CENTER">
+                                                            <columnConstraints>
+                                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                                                                   prefWidth="100.0"/>
+                                                            </columnConstraints>
+                                                            <rowConstraints>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                                                                vgrow="SOMETIMES"/>
+                                                            </rowConstraints>
+                                                            <children>
+                                                                <Button id="radio-list-button-1" alignment="CENTER_LEFT"
+                                                                        contentDisplay="LEFT" mnemonicParsing="false"
+                                                                        prefHeight="25.0" prefWidth="204.0" text="1live"
+                                                                        textAlignment="RIGHT">
+                                                                    <graphic>
+                                                                        <ButtonBar>
+                                                                            <buttons>
+                                                                                <ImageView>
+                                                                                    <Image url="@../assets/images/icons/radios/1live.png"/>
+                                                                                </ImageView>
+                                                                            </buttons>
+                                                                        </ButtonBar>
+                                                                    </graphic>
+                                                                </Button>
+                                                                <Button id="radio-list-button-2" alignment="CENTER_LEFT"
+                                                                        mnemonicParsing="false" prefHeight="25.0"
+                                                                        prefWidth="201.0" text="Top100Station"
+                                                                        textAlignment="RIGHT" GridPane.rowIndex="1">
+                                                                    <graphic>
+                                                                        <ButtonBar>
+                                                                            <buttons>
+                                                                                <ImageView>
+                                                                                    <image>
+                                                                                        <Image url="@../assets/images/icons/radios/top100.png"/>
+                                                                                    </image>
+                                                                                </ImageView>
+                                                                            </buttons>
+                                                                        </ButtonBar>
+                                                                    </graphic>
+                                                                </Button>
+                                                            </children>
+                                                            <padding>
+                                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                            </padding>
+                                                        </GridPane>
+                                                    </center>
+                                                </BorderPane>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="379.0" prefWidth="429.0">
+                                            <children>
+                                                <BorderPane centerShape="false" layoutX="5.0" layoutY="5.0"
+                                                            prefHeight="379.0" prefWidth="445.0"
+                                                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                                            AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="0.0">
+                                                    <top>
+                                                        <BorderPane prefHeight="76.0" prefWidth="418.0"
+                                                                    BorderPane.alignment="CENTER">
+                                                            <left>
+                                                                <Label id="radio-label-1" text="Station:"
+                                                                       BorderPane.alignment="CENTER"/>
+                                                            </left>
+                                                            <right>
+                                                                <GridPane prefHeight="30.0" prefWidth="132.0"
+                                                                          BorderPane.alignment="CENTER">
+                                                                    <columnConstraints>
+                                                                        <ColumnConstraints hgrow="SOMETIMES"
+                                                                                           minWidth="10.0"
+                                                                                           prefWidth="100.0"/>
+                                                                        <ColumnConstraints hgrow="SOMETIMES"
+                                                                                           minWidth="10.0"
+                                                                                           prefWidth="100.0"/>
+                                                                    </columnConstraints>
+                                                                    <rowConstraints>
+                                                                        <RowConstraints minHeight="10.0"
+                                                                                        prefHeight="30.0"
+                                                                                        vgrow="SOMETIMES"/>
+                                                                        <RowConstraints minHeight="10.0"
+                                                                                        prefHeight="30.0"
+                                                                                        vgrow="SOMETIMES"/>
+                                                                        <RowConstraints minHeight="10.0"
+                                                                                        prefHeight="30.0"
+                                                                                        vgrow="SOMETIMES"/>
+                                                                    </rowConstraints>
+                                                                    <children>
+                                                                        <Button id="radio-button1"
+                                                                                mnemonicParsing="false"
+                                                                                prefHeight="25.0" prefWidth="65.0"
+                                                                                text="Start" GridPane.rowIndex="1"/>
+                                                                        <Button id="radio-button2"
+                                                                                mnemonicParsing="false"
+                                                                                prefHeight="25.0" prefWidth="65.0"
+                                                                                text="Stop" GridPane.columnIndex="1"
+                                                                                GridPane.rowIndex="1"/>
+                                                                    </children>
+                                                                </GridPane>
+                                                            </right>
+                                                            <bottom>
+                                                                <Slider id="radio-slider" BorderPane.alignment="CENTER">
+                                                                    <cursor>
+                                                                        <Cursor fx:constant="H_RESIZE"/>
+                                                                    </cursor>
+                                                                </Slider>
+                                                            </bottom>
+                                                            <top>
+                                                                <ProgressBar id="radio-progressbar" prefHeight="18.0"
+                                                                             prefWidth="241.0" progress="0.0"
+                                                                             BorderPane.alignment="CENTER">
+                                                                    <effect>
+                                                                        <Glow/>
+                                                                    </effect>
+                                                                </ProgressBar>
+                                                            </top>
+                                                        </BorderPane>
+                                                    </top>
+                                                    <center>
+                                                        <BorderPane prefHeight="280.0" prefWidth="435.0"
+                                                                    BorderPane.alignment="CENTER">
+                                                            <top>
+                                                                <GridPane BorderPane.alignment="CENTER">
+                                                                    <columnConstraints>
+                                                                        <ColumnConstraints hgrow="SOMETIMES"
+                                                                                           minWidth="10.0"
+                                                                                           prefWidth="100.0"/>
+                                                                        <ColumnConstraints hgrow="SOMETIMES"
+                                                                                           minWidth="10.0"
+                                                                                           prefWidth="100.0"/>
+                                                                        <ColumnConstraints hgrow="SOMETIMES"
+                                                                                           minWidth="10.0"
+                                                                                           prefWidth="100.0"/>
+                                                                    </columnConstraints>
+                                                                    <rowConstraints>
+                                                                        <RowConstraints minHeight="10.0"
+                                                                                        prefHeight="30.0"
+                                                                                        vgrow="SOMETIMES"/>
+                                                                        <RowConstraints minHeight="10.0"
+                                                                                        prefHeight="30.0"
+                                                                                        vgrow="SOMETIMES"/>
+                                                                        <RowConstraints minHeight="10.0"
+                                                                                        prefHeight="30.0"
+                                                                                        vgrow="SOMETIMES"/>
+                                                                    </rowConstraints>
+                                                                    <children>
+                                                                        <Label id="radio-label1" alignment="CENTER"
+                                                                               contentDisplay="CENTER"
+                                                                               text="Lautstaerke" textAlignment="CENTER"
+                                                                               textFill="#0c9e3a"
+                                                                               GridPane.columnIndex="1"
+                                                                               GridPane.halignment="CENTER"
+                                                                               GridPane.valignment="CENTER">
+                                                                            <effect>
+                                                                                <Lighting bumpInput="$null"
+                                                                                          diffuseConstant="0.84"
+                                                                                          specularConstant="0.83"
+                                                                                          surfaceScale="1.97">
+                                                                                    <light>
+                                                                                        <Light.Distant azimuth="82.67"
+                                                                                                       color="#bc0000"/>
+                                                                                    </light>
+                                                                                </Lighting>
+                                                                            </effect>
+                                                                        </Label>
+                                                                        <Label id="radio-label3" prefHeight="17.0"
+                                                                               prefWidth="416.0"
+                                                                               text="Momentan laufend:"
+                                                                               GridPane.rowIndex="1"/>
+                                                                    </children>
+                                                                </GridPane>
+                                                            </top>
+                                                            <center>
+                                                                <ScrollPane prefHeight="198.0" prefWidth="435.0"
+                                                                            BorderPane.alignment="CENTER">
+                                                                    <content>
+                                                                        <GridPane prefHeight="181.0" prefWidth="422.0">
+                                                                            <columnConstraints>
+                                                                                <ColumnConstraints hgrow="SOMETIMES"
+                                                                                                   minWidth="10.0"
+                                                                                                   prefWidth="100.0"/>
+                                                                                <ColumnConstraints hgrow="SOMETIMES"
+                                                                                                   minWidth="10.0"
+                                                                                                   prefWidth="100.0"/>
+                                                                            </columnConstraints>
+                                                                            <rowConstraints>
+                                                                                <RowConstraints minHeight="10.0"
+                                                                                                prefHeight="30.0"
+                                                                                                vgrow="SOMETIMES"/>
+                                                                                <RowConstraints minHeight="10.0"
+                                                                                                prefHeight="30.0"
+                                                                                                vgrow="SOMETIMES"/>
+                                                                                <RowConstraints minHeight="10.0"
+                                                                                                prefHeight="30.0"
+                                                                                                vgrow="SOMETIMES"/>
+                                                                                <RowConstraints minHeight="10.0"
+                                                                                                prefHeight="30.0"
+                                                                                                vgrow="SOMETIMES"/>
+                                                                                <RowConstraints minHeight="10.0"
+                                                                                                prefHeight="30.0"
+                                                                                                vgrow="SOMETIMES"/>
+                                                                                <RowConstraints minHeight="10.0"
+                                                                                                prefHeight="30.0"
+                                                                                                vgrow="SOMETIMES"/>
+                                                                                <RowConstraints minHeight="10.0"
+                                                                                                prefHeight="30.0"
+                                                                                                vgrow="SOMETIMES"/>
+                                                                                <RowConstraints minHeight="10.0"
+                                                                                                prefHeight="30.0"
+                                                                                                vgrow="SOMETIMES"/>
+                                                                            </rowConstraints>
+                                                                            <children>
+                                                                                <Label prefHeight="17.0"
+                                                                                       prefWidth="105.0"
+                                                                                       text="Einstellungen:"/>
+                                                                                <CheckBox mnemonicParsing="false"
+                                                                                          prefHeight="17.0"
+                                                                                          prefWidth="198.0"
+                                                                                          selected="true"
+                                                                                          text="Automatischer Reconnect"
+                                                                                          GridPane.rowIndex="1"/>
+                                                                                <CheckBox mnemonicParsing="false"
+                                                                                          prefHeight="17.0"
+                                                                                          prefWidth="207.0"
+                                                                                          selected="true"
+                                                                                          text="Speichere Wiedergabelog"
+                                                                                          GridPane.rowIndex="2"/>
+                                                                            </children>
+                                                                            <padding>
+                                                                                <Insets bottom="5.0" left="5.0"
+                                                                                        right="5.0" top="5.0"/>
+                                                                            </padding>
+                                                                        </GridPane>
+                                                                    </content>
+                                                                    <padding>
+                                                                        <Insets bottom="10.0" left="5.0" right="5.0"
+                                                                                top="5.0"/>
+                                                                    </padding>
+                                                                </ScrollPane>
+                                                            </center>
+                                                        </BorderPane>
+                                                    </center>
+                                                    <opaqueInsets>
+                                                        <Insets/>
+                                                    </opaqueInsets>
+                                                    <padding>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                    </padding>
+                                                </BorderPane>
+                                            </children>
+                                        </AnchorPane>
+                                    </items>
+                                </SplitPane>
+                            </center>
+                        </BorderPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+    <bottom>
+        <ToolBar prefHeight="24.0" prefWidth="624.0" BorderPane.alignment="CENTER">
+            <effect>
+                <DropShadow height="26.93" radius="6.2325" spread="0.03" width="0.0"/>
+            </effect>
+            <items>
+                <GridPane prefHeight="14.0" prefWidth="677.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="235.0" minWidth="10.0" prefWidth="235.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="106.0" minWidth="10.0" prefWidth="89.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="156.0" minWidth="10.0" prefWidth="156.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="70.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <Label prefHeight="17.0" prefWidth="162.0" text="Radiotitel: "/>
+                        <Label contentDisplay="RIGHT" text="Noneatme" GridPane.columnIndex="4">
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@../assets/images/icons/noneatme.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Label>
+                    </children>
+                </GridPane>
+            </items>
+        </ToolBar>
+    </bottom>
+</BorderPane>

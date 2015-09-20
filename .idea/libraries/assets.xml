@@ -1,11 +1,10 @@
 <component name="libraryTable">
-  <library name="sqlite-jdbc-3.8.11.1">
+  <library name="assets">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/assets/sqlite-jdbc-3.8.11.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/assets/jsoup-1.8.3.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/assets/sqlite-jdbc-3.8.11.1.jar!/" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>

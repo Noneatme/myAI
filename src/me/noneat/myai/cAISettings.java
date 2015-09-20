@@ -20,17 +20,21 @@ public class cAISettings
 	// -- //
 	// -- || PVArs
 	// -- \\
-	public static String VERSION            = "0.0.1";
-	public static boolean DEBUG             = true;
-	public static String DATABASE_PATH      = "main.db";
-	public static boolean USE_ASCII_CHARS   = false;
-	public static long TERMINATE_IDLE_TIME  = 20000;
-
-	protected static boolean instanced      = false;
+	public static final String APPLICATION_NAME     = "myAI / Soupe";   // Program name
+	public static String VERSION                    = "0.0.2";          // Program version
+	public static String DATABASE_PATH              = "main.db";        // The database path
+	public static boolean DEBUG                     = true;             // Debug the application
+	public static boolean USE_ASCII_CHARS           = false;            // Enable the usage of ASCII chars
+	protected static boolean instanced              = false;            // Dont change
+	public static long TERMINATE_IDLE_TIME          = 20000*60*1000;         // Time in MS when the app will be killed
+	public static boolean USE_GUI                   = false;            // Change this to false if you want the console output instead
+																		// Useful for debugging
 
 	// -- //
 	// -- || Singleton Instances
 	// -- \\
+	// I dont think I should use public static all the way, nvm.
+	// TODO: fix fucked up code
 	public static cConsoleUtil consoleUtil  = new cConsoleUtil();
 	public static cDatabase database;
 	public static cUserInputManager inputManager;
@@ -46,6 +50,8 @@ public class cAISettings
 		{
 			instanced       = true;
 
+			// Dafuq is this
+			// Todo: srsly
 			database        = new cDatabase(DATABASE_PATH);
 			inputManager    = new cUserInputManager();
 			closeHandler    = new cCloseHandler();
@@ -60,8 +66,45 @@ public class cAISettings
 		}
 	}
 
+	// -- //
+	// -- || getDatabase
+	// -- \\
 	public static cDatabase getDatabase()
 	{
 		return database;
 	}
+
+	/* GETTER AND SETTER */
+	// -- //
+	// -- || getAIManager
+	// -- \\
+	public static cAIManager getAiManager()
+	{
+		return aiManager;
+	}
+
+	// -- //
+	// -- || getCloseHandler
+	// -- \\
+	public static cCloseHandler getCloseHandler()
+	{
+		return closeHandler;
+	}
+
+	// -- //
+	// -- || getInputManager
+	// -- \\
+	public static cUserInputManager getInputManager()
+	{
+		return inputManager;
+	}
+
+	// -- //
+	// -- || getConsoleUtil
+	// -- \\
+	public static cConsoleUtil getConsoleUtil()
+	{
+		return consoleUtil;
+	}
 }
+

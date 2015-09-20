@@ -40,7 +40,8 @@ public class cCloseHandler extends Thread
 			{
 				if(cMain.ai.canBeTerminated())
 				{
-					if (System.currentTimeMillis() - this.m_iLastMS > cAISettings.TERMINATE_IDLE_TIME) {
+					if ((System.currentTimeMillis() - this.m_iLastMS > cAISettings.TERMINATE_IDLE_TIME) && cAISettings.TERMINATE_IDLE_TIME > 0)
+					{
 						cMain.abort();
 					}
 				}

@@ -1,6 +1,8 @@
 package me.noneat.myai.sql;
 
 import me.noneat.myai.ai.cSentenceUtils;
+import me.noneat.myai.ai.questions.cAIQuestion;
+import me.noneat.myai.ai.questions.cAIQuestionAskQuestion;
 import me.noneat.myai.cMain;
 import me.noneat.myai.web.cGoogleSearch;
 
@@ -40,6 +42,7 @@ public class cSQLScriptedQuestionManager extends cSQLAnswerFinder
 		useString               = cSentenceUtils.getDatabaseReadyString(useString, true);
 		useString               = useString.replace("can you search for ", "");
 		useString               = useString.replace("what is ", "");
+		cAIQuestion question    = null;
 
 		switch(this.iID)
 		{
@@ -54,15 +57,11 @@ public class cSQLScriptedQuestionManager extends cSQLAnswerFinder
 				break;
 			}
 			case 28:
-			{
-
-			}
 			case 27:        // What is
 			{
 				try
 				{
-					cMain.ai.setNextAnswer("Sure, let me see what I can find.");
-					cMain.ai.speak();
+					this.setAnswer("Sure, let me see what I can find.");
 					new cGoogleSearch(useString);
 				}
 				catch(Exception ex)
@@ -71,6 +70,15 @@ public class cSQLScriptedQuestionManager extends cSQLAnswerFinder
 				}
 				break;
 			}
+			case 40:        // Testquestion
+				question = new cAIQuestionAskQuestion(useString, this.iID);
+				break;
+		}
+
+		if(question != null)
+		{
+			question.overrideGlobalQuestion();
+			this.setAnswer(question.getFirstQuestion());
 		}
 
 		if(cMain.ai.isReady())

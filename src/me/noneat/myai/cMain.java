@@ -1,7 +1,10 @@
 package me.noneat.myai;
 
 import com.sun.org.apache.xpath.internal.SourceTree;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import me.noneat.myai.ai.cAI;
+import me.noneat.myai.gui.cAIChatWindow;
 
 import java.sql.SQLException;
 
@@ -12,12 +15,13 @@ import java.sql.SQLException;
 // -- //
 // -- || cMain
 // -- \\
-public class cMain
+public class cMain extends Application
 {
 	// -- //
 	// -- || PVars
 	// -- \\
 	// PVArs
+	public static cAIChatWindow app;
 	public static cAI ai;
 
 	// -- //
@@ -48,6 +52,9 @@ public class cMain
 		// Everything loaded
 		cAISettings.consoleUtil.setLoadingState(false);
 		//cMain.ai.setLearnMode(true);
+
+		if(cAISettings.USE_GUI)
+			launch();
 	}
 
 	// -- //
@@ -67,9 +74,20 @@ public class cMain
 		}
 
 		// Outputs
-		System.out.println("!! Got Abort Signal, Terminating Program");
+		System.out.println("- Got abort signal, terminating program");
 
 		// Exit
 		System.exit(0);
+	}
+
+	// -- //
+	// -- || Startt
+	// -- || Launches the application if the gui mode has been activated.
+	// -- \\
+	@Override
+	public void start(Stage primaryStage) throws Exception
+	{
+		this.app = new cAIChatWindow();
+		this.app.start(primaryStage);
 	}
 }

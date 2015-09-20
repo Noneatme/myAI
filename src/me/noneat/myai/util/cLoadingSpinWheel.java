@@ -21,6 +21,7 @@ public class cLoadingSpinWheel extends Thread
 	// -- \\
 	public void run()
 	{
+
 		if(cAISettings.USE_ASCII_CHARS)
 		{
 			try
@@ -45,6 +46,8 @@ public class cLoadingSpinWheel extends Thread
 					sleep(this.m_timeToSleep);
 					System.out.print('\b');
 				}
+
+				System.out.print('\b');
 			}
 			catch (Exception ex)
 			{

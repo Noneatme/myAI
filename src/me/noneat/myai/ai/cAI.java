@@ -1,9 +1,10 @@
 package me.noneat.myai.ai;
 
+import me.noneat.myai.ai.questions.cAIQuestion;
 import me.noneat.myai.cAISettings;
+import me.noneat.myai.cMain;
 import me.noneat.myai.sql.cDatabase;
 import me.noneat.myai.sql.cSQLABCQuestionAnswerFinder;
-import me.noneat.myai.sql.cSQLQuestionAnswerFinder;
 import me.noneat.myai.sql.cSQLStatementAnswerFinder;
 
 import java.sql.PreparedStatement;
@@ -26,8 +27,6 @@ public class cAI extends Thread
 	// -- //
 	// -- || PVars
 	// -- \\
-	protected final String VERSION          = "0.0.1";
-
 	private String sDateCreated     		= null;
 	private String sName            		= null;
 
@@ -44,6 +43,8 @@ public class cAI extends Thread
 
 	private int iLearnStatusMode    		= 0;
 	private int iLearnModeLastInsertID 		= 0;
+
+	private cAIQuestion scriptedQuestion    = null;
 
 	// -- //
 	// -- || Enums
@@ -89,12 +90,14 @@ public class cAI extends Thread
 			if (!this.isReady())
 				return false;
 
-			String sAnswer 			= "";
-			String sText 			= this.sInput;
-			boolean bAnswerFound 	= false;
-			int iAnswerType 		= 1;
-			boolean question 		= cSentenceUtils.hasSentenceQuestionmark(sText);
-			int iCategory 			= this.getSentenceCategory(sText);
+			String sAnswer 			= "";                                                   // The Answer that has been found
+			String sText 			= this.sInput;                                          // The input text
+			boolean bAnswerFound 	= false;                                                // Answer found?
+			int iAnswerType 		= 1;                                                    // The Type of the answer
+			boolean question 		= cSentenceUtils.hasSentenceQuestionmark(sText);        // is it a question?
+			int iCategory 			= this.getSentenceCategory(sText);                      // The question category
+			boolean bOutputNow      = false;                                                // Output the answer at the end of this method
+			boolean bNewSentence    = false;                                                // Is the output a raw sentence?
 
 		/*
 			Answer Types:
@@ -207,6 +210,10 @@ public class cAI extends Thread
 							this.iLearnStatusMode = 1;
 
 						}
+						else
+						{
+							System.out.println("Ayy. This is not a question. To use statements, type -abort and then -learn_state");
+						}
 					}
 
 				}
@@ -215,43 +222,63 @@ public class cAI extends Thread
 			{
 				if (!bAnswerFound)
 				{
-					ResultSet answerSet = null;
-
-					if (question)
+					if (this.getScriptedQuestion() != null && this.getScriptedQuestion().isActive())  // Scripted Question?
 					{
-					//	answerSet = cAISettings.aiManager.getRandomSentenceFromCategory(2);       // Question Answer
-						sAnswer = this.getQuestionAnswer(sText, iCategory);
+						// Scripted Question, ask it
+						cAIQuestion scriptedQuestion    = this.getScriptedQuestion();
+						sAnswer                         = scriptedQuestion.getQuestionFromID(scriptedQuestion.getCurrentQuestionResponseID());
 
+						// ScriptedQuestions
+						scriptedQuestion.addResponse(scriptedQuestion.getCurrentQuestionResponseID(), this.sInput);
+						scriptedQuestion.onAnswerGet(scriptedQuestion.getCurrentQuestionResponseID());
+
+						// Output now
+						bOutputNow      = true;
+						bNewSentence    = true;
 					}
 					else
 					{
-					//	answerSet = cAISettings.aiManager.getRandomSentenceFromCategory(3);       // Statement Answer
-						sAnswer = this.getStatementAnswer(sText, iCategory);
+						ResultSet answerSet = null;
 
-					}
-
-					if(answerSet != null)
-					{
-						sAnswer = answerSet.getString(1);
-						this.iLastResponseID = answerSet.getInt(2);
+						if (question)
+						{
+							//	answerSet = cAISettings.aiManager.getRandomSentenceFromCategory(2);       // Question Answer
+							sAnswer = this.getQuestionAnswer(sText, iCategory);
+						}
+						else
+						{
+							//	answerSet = cAISettings.aiManager.getRandomSentenceFromCategory(3);       // Statement Answer
+							sAnswer = this.getStatementAnswer(sText, iCategory);
+						}
+						// Does the answer exists?
+						if (answerSet != null)
+						{
+							sAnswer                 = answerSet.getString(1);
+							this.iLastResponseID    = answerSet.getInt(2);
+						}
 					}
 				}
 			}
 
-			/*
 
-			sAnswer = cSentenceUtils.applySentenceTypeToEnd(sAnswer, iAnswerType);
-			sAnswer = cSentenceUtils.putAINameIntoString(sAnswer);
-
-
-			this.setNextAnswer(sAnswer);
-			this.speak();
-			*/
-
-			if(this.getLearnMode())
+			if(bOutputNow)
 			{
+				if(bNewSentence)
+				{
+					sAnswer = cSentenceUtils.applySentenceTypeToEnd(sAnswer, iAnswerType);
+					sAnswer = cSentenceUtils.putAINameIntoString(sAnswer);
+				}
+
 				this.setNextAnswer(sAnswer);
 				this.speak();
+			}
+			else
+			{
+				if (this.getLearnMode())
+				{
+					this.setNextAnswer(sAnswer);
+					this.speak();
+				}
 			}
 			this.bHasToThink = false;
 		}
@@ -284,10 +311,20 @@ public class cAI extends Thread
 	// -- \\
 	public void speak()
 	{
-		if(this.sNextAnswer != null)
-			System.err.println(this.sNextAnswer);
+
+		if(this.sNextAnswer != null & this.sNextAnswer.length() > 1)
+		{
+			System.out.print(this.getAIName() + " says: ");
+			System.out.println(this.sNextAnswer);
+		}
 		// NOTE: This can cause some issues on the closeHandler to perform the automatic termination process.
 		cAISettings.closeHandler.resetCloseHandlerRequest();
+		cAISettings.consoleUtil.setLoadingState(false);
+		cAISettings.aiManager.getRandomTimeStatementManager().refreshTimer();
+		if(cAISettings.USE_GUI)
+		{
+			cMain.app.writeAIMessage(this.sNextAnswer);
+		}
 	}
 
 	// -- //
@@ -322,7 +359,6 @@ public class cAI extends Thread
 	// -- || getQuestionAnswer
 	// -- || When a question is typed in.
 	// -- \\
-
 	public String getQuestionAnswer(String sQuestion, int iCategory)
 	{
 		String sAnswer                  = null;
@@ -497,5 +533,21 @@ public class cAI extends Thread
 	public void setCurLearnModeType(LEARN_MODES curLearnMode)
 	{
 		this.curLearnMode = curLearnMode;
+	}
+
+	// -- //
+	// -- || getScriptedQuestion
+	// -- \\
+	public cAIQuestion getScriptedQuestion()
+	{
+		return scriptedQuestion;
+	}
+
+	// -- //
+	// -- || setScriptedQuestion
+	// -- \\
+	public void setScriptedQuestion(cAIQuestion scriptedQuestion)
+	{
+		this.scriptedQuestion = scriptedQuestion;
 	}
 }

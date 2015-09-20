@@ -41,7 +41,6 @@ public class cUserInputManager extends Thread
 			{
 				cAISettings.consoleUtil.setLoadingState(true);
 				cUserInput currentInput = new cUserInput(strLine);
-				cAISettings.consoleUtil.setLoadingState(false);
 			}
 		}
 		catch(Exception ex)

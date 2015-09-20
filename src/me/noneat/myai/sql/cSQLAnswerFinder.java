@@ -37,7 +37,7 @@ public abstract class cSQLAnswerFinder extends Thread
 	}
 
 	// -- //
-	// -- || getAnswer
+	// -- || getResponse
 	// -- \\
 	protected String getAnswer()
 	{
