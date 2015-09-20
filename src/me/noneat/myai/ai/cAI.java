@@ -320,11 +320,14 @@ public class cAI extends Thread
 		// NOTE: This can cause some issues on the closeHandler to perform the automatic termination process.
 		cAISettings.closeHandler.resetCloseHandlerRequest();
 		cAISettings.consoleUtil.setLoadingState(false);
+<<<<<<< HEAD
 		cAISettings.aiManager.getRandomTimeStatementManager().refreshTimer();
 		if(cAISettings.USE_GUI)
 		{
 			cMain.app.writeAIMessage(this.sNextAnswer);
 		}
+=======
+>>>>>>> origin/master
 	}
 
 	// -- //

@@ -53,8 +53,13 @@ public class cMain extends Application
 		cAISettings.consoleUtil.setLoadingState(false);
 		//cMain.ai.setLearnMode(true);
 
+<<<<<<< HEAD
 		if(cAISettings.USE_GUI)
 			launch();
+=======
+
+		launch();
+>>>>>>> origin/master
 	}
 
 	// -- //
@@ -80,6 +85,7 @@ public class cMain extends Application
 		System.exit(0);
 	}
 
+<<<<<<< HEAD
 	// -- //
 	// -- || Startt
 	// -- || Launches the application if the gui mode has been activated.
@@ -89,5 +95,13 @@ public class cMain extends Application
 	{
 		this.app = new cAIChatWindow();
 		this.app.start(primaryStage);
+=======
+	// JAVAFX CLASS //
+	@Override
+	public void start(Stage primaryStage) throws Exception
+	{
+		Application app = new cAIChatWindow();
+		app.start(primaryStage);
+>>>>>>> origin/master
 	}
 }

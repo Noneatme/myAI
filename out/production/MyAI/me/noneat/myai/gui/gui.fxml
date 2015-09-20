@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text id="header-text" layoutX="111.0" layoutY="115.0" stroke="#99d17d" strokeDashOffset="2.0" strokeMiterLimit="5.0" strokeType="OUTSIDE" strokeWidth="2.0" text="HEADER_TEXT" textAlignment="CENTER" wrappingWidth="178.13671875">
+         <font>
+            <Font size="21.0" />
+         </font>
+         <effect>
+            <Glow />
+         </effect>
+      </Text>
+      <Text id="info-text" layoutX="17.0" layoutY="171.0" stroke="#725b5b" strokeLineCap="BUTT" strokeType="OUTSIDE" strokeWidth="0.5" text="So Text" wrappingWidth="365.830078125" />
+      <Button layoutX="17.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" text="Okay" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+   </children>
+</Pane>

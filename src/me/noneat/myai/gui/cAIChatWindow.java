@@ -1,6 +1,7 @@
 package me.noneat.myai.gui;
 
 import javafx.application.Application;
+<<<<<<< HEAD
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,6 +25,20 @@ import me.noneat.myai.cmd.cGuiInputManager;
 
 import java.awt.SystemTray;
 
+=======
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import me.noneat.myai.cAISettings;
+import me.noneat.myai.cMain;
+>>>>>>> origin/master
 
 /**
  * Created by Noneatme on 28.08.2015.
@@ -33,6 +48,7 @@ public class cAIChatWindow extends Application
 	private GridPane grid;
 	private Scene scene1;
 
+<<<<<<< HEAD
 	private cGuiInputManager man;
 
 	private boolean bRadioStarted   = false;
@@ -58,6 +74,22 @@ public class cAIChatWindow extends Application
 		//	web2.getEngine().load("http://noneat.me:7778/");
 
 
+=======
+	private int iScreenWidth        = 400;
+	private int iScreenHeight       = 350;
+
+	@Override
+	public void start(Stage primaryStage) throws Exception
+	{
+		Parent root = FXMLLoader.load(getClass().getResource("gui.fxml"));
+		primaryStage.setTitle(cAISettings.APPLICATION_NAME + " " + cAISettings.VERSION);
+		primaryStage.setWidth(400);
+		primaryStage.setHeight(350);
+		primaryStage.show();
+
+		this.scene1 = new Scene(root, 400, 350);
+		primaryStage.setScene(this.scene1);
+>>>>>>> origin/master
 
 		/*
 		this.grid       = new GridPane();
@@ -65,6 +97,7 @@ public class cAIChatWindow extends Application
 		this.grid.setHgap(10);
 		this.grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
+<<<<<<< HEAD
 		*/
 
 		primaryStage.show();
@@ -82,6 +115,16 @@ public class cAIChatWindow extends Application
 
 	}
 
+=======
+
+
+		this.generateComponents();
+		*/
+		primaryStage.setOnCloseRequest(event -> cMain.abort());
+	}
+
+
+>>>>>>> origin/master
 	private void generateComponents()
 	{
 		// CSS //
@@ -89,6 +132,10 @@ public class cAIChatWindow extends Application
 		Text scenetitle     = new Text("Welcome");
 		Text infoText       = new Text(cAISettings.APPLICATION_NAME + " " + cAISettings.VERSION + " is currently in heavy development. You are testing the early alpha kernel features.");
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		scenetitle.setId("titel-text");
 
@@ -99,6 +146,7 @@ public class cAIChatWindow extends Application
 		this.grid.add(scenetitle, 0, 0, 2, 1);
 		this.grid.add(infoText, 1, 5);
 	*/
+<<<<<<< HEAD
 
 
 		TextField hes = (TextField) this.scene1.lookup("#textfield-myai");
@@ -218,5 +266,7 @@ public class cAIChatWindow extends Application
 		TextArea txt = (TextArea) this.scene1.lookup("#textarea-myai");
 		txt.setText(txt.getText() + cMain.ai.getAIName() + ": " + msg + "\n\n");
 		txt.positionCaret(txt.getText().length());
+=======
+>>>>>>> origin/master
 	}
 }
