@@ -1,10 +1,8 @@
 package me.noneat.myai;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import me.noneat.myai.ai.cAI;
-import me.noneat.myai.gui.cAIChatWindow;
 import me.noneat.myai.gui.popupdisplay.cPopupDisplayGUI;
 
 import java.sql.SQLException;

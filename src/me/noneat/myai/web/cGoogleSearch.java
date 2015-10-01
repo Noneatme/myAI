@@ -12,7 +12,7 @@ import java.net.URLEncoder;
 
 
 /**
- * Created by Noneatme on 19.08.2015.
+ * Created by Jonas Barascu on 19.08.2015.
  */
 public class cGoogleSearch
 {
