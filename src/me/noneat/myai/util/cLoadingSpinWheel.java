@@ -3,7 +3,10 @@ package me.noneat.myai.util;
 import me.noneat.myai.cAISettings;
 
 /**
- * Created by Noneatme on 12.08.2015.
+ * Package: me.noneat.myai.util
+ * Author: Noneatme
+ * Version: 1.0.0
+ * License: See LICENSE.md in the top folder.
  */
 // -- //
 // -- || LoadingWheel Class

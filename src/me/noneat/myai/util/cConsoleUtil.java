@@ -1,7 +1,10 @@
 package me.noneat.myai.util;
 
 /**
- * Created by Noneatme on 12.08.2015.
+ * Package: me.noneat.myai.util
+ * Author: Noneatme
+ * Version: 1.0.0
+ * License: See LICENSE.md in the top folder.
  */
 
 // -- //

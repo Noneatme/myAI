@@ -4,7 +4,10 @@ import me.noneat.myai.cAISettings;
 import me.noneat.myai.cMain;
 
 /**
- * Created by Noneatme on 13.08.2015.
+ * Package: me.noneat.myai.util
+ * Author: Noneatme
+ * Version: 1.0.0
+ * License: See LICENSE.md in the top folder.
  */
 // -- //
 // -- || closeHandler

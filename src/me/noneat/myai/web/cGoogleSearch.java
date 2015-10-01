@@ -12,8 +12,12 @@ import java.net.URLEncoder;
 
 
 /**
- * Created by Jonas Barascu on 19.08.2015.
+ * Package: me.noneat.myai.util
+ * Author: Noneatme
+ * Version: 1.0.0
+ * License: See LICENSE.md in the top folder.
  */
+
 public class cGoogleSearch
 {
 	private String sGoogle      = "http://www.google.com/search?q=";

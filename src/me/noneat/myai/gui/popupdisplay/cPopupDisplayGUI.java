@@ -27,9 +27,12 @@ import me.noneat.myai.gui.cSystemTrayIcon;
 
 import java.awt.*;
 
-
 /**
- * Created by Noneatme on 23.09.2015.
+ * Package: me.noneat.myai.gui.popupdisplay
+ * Author: Noneatme
+ * Date: 01.09.2015-12:02-2015.
+ * Version: 1.0.0
+ * License: See LICENSE.md in the top folder.
  */
 public class cPopupDisplayGUI extends Application
 {
