@@ -3,6 +3,7 @@ package me.noneat.myai.ai;
 import me.noneat.myai.ai.questions.cAIQuestion;
 import me.noneat.myai.cAISettings;
 import me.noneat.myai.cMain;
+import me.noneat.myai.output.cConsoleSentenceWriter;
 import me.noneat.myai.sql.cDatabase;
 import me.noneat.myai.sql.cSQLABCQuestionAnswerFinder;
 import me.noneat.myai.sql.cSQLStatementAnswerFinder;
@@ -112,21 +113,21 @@ public class cAI extends Thread
 			if(this.getLearnMode())
 			{
 				// Question and Learn Status Mode = Reday?
-				if(question && this.iLearnStatusMode == 0 && (this.getCurLearnModeType() == LEARN_MODES.LEARN_MODE_QUESTIONS))
+				if (question && this.iLearnStatusMode == 0 && (this.getCurLearnModeType() == LEARN_MODES.LEARN_MODE_QUESTIONS))
 				{
 					// Ready?
 					if (this.iLearnStatusMode == 0)  // A Question
 					{
-						String sToSave              = cSentenceUtils.getDatabaseReadyString(sInput, true);
+						String sToSave = cSentenceUtils.getDatabaseReadyString(sInput, true);
 
-						sAnswer                     = "How should I answer this question: " + sToSave;
-						iAnswerType                 = 2;
-						this.iLearnStatusMode       = 1;
+						sAnswer = "How should I answer this question: " + sToSave;
+						iAnswerType = 2;
+						this.iLearnStatusMode = 1;
 
-						ResultSet searchResultFirst 		= cAISettings.getDatabase().executeQuery("SELECT sQuestion, iQuestionID FROM " + cDatabase.TABLE_QUESTIONS_ASKABLE + " WHERE sQuestion = '" + sToSave + "' LIMIT 1;");
-						if(searchResultFirst.next())
+						ResultSet searchResultFirst = cAISettings.getDatabase().executeQuery("SELECT sQuestion, iQuestionID FROM " + cDatabase.TABLE_QUESTIONS_ASKABLE + " WHERE sQuestion = '" + sToSave + "' LIMIT 1;");
+						if (searchResultFirst.next())
 						{
-							this.iLearnModeLastInsertID 		= searchResultFirst.getInt(2);
+							this.iLearnModeLastInsertID = searchResultFirst.getInt(2);
 						}
 						else
 						{
@@ -134,17 +135,15 @@ public class cAI extends Thread
 							stm.setString(1, sToSave);
 							cAISettings.getDatabase().executeStatement(stm);
 
-							// TODO: GET_LAST_INSERT_ID();
-							// TODO DONE
-							ResultSet result 					= cAISettings.getDatabase().executeQuery("SELECT last_insert_rowid() FROM " + cDatabase.TABLE_QUESTIONS_ASKABLE + ";");
-							this.iLearnModeLastInsertID 		= Integer.parseInt(result.getString(1));
+							ResultSet result = cAISettings.getDatabase().executeQuery("SELECT last_insert_rowid() FROM " + cDatabase.TABLE_QUESTIONS_ASKABLE + ";");
+							this.iLearnModeLastInsertID = Integer.parseInt(result.getString(1));
 						}
 						System.out.println("Response to: " + this.iLearnModeLastInsertID);
 					}
 				}
 				else
 				{
-					if(this.getCurLearnModeType() == LEARN_MODES.LEARN_MODE_SENTENCES)
+					if (this.getCurLearnModeType() == LEARN_MODES.LEARN_MODE_SENTENCES)
 					{
 						// Ready?
 						if (this.iLearnStatusMode == 0)  // A Statement
@@ -166,14 +165,12 @@ public class cAI extends Thread
 								stm.setString(1, sToSave);
 								cAISettings.getDatabase().executeStatement(stm);
 
-								// TODO: GET_LAST_INSERT_ID();
-								// TODO DONE
 								ResultSet result = cAISettings.getDatabase().executeQuery("SELECT last_insert_rowid() FROM " + cDatabase.TABLE_STATEMENT_SENTENCES + ";");
 								this.iLearnModeLastInsertID = Integer.parseInt(result.getString(1));
 							}
 							System.out.println("Response to sentence: " + this.iLearnModeLastInsertID);
 						}
-						else if(this.iLearnStatusMode == 1)
+						else if (this.iLearnStatusMode == 1)
 						{
 
 							String sToSave = cSentenceUtils.getDatabaseReadyString(sInput, false);
@@ -206,16 +203,15 @@ public class cAI extends Thread
 
 							System.out.println("Saved: " + sToSave);
 							sAnswer = "Ok, Saved. Type in -ABORT to cancel this question answers to implement a next question";
+
 							iAnswerType = 1;
 							this.iLearnStatusMode = 1;
-
 						}
 						else
 						{
 							System.out.println("Ayy. This is not a question. To use statements, type -abort and then -learn_state");
 						}
 					}
-
 				}
 			}
 			else
@@ -259,8 +255,6 @@ public class cAI extends Thread
 					}
 				}
 			}
-
-
 			if(bOutputNow)
 			{
 				if(bNewSentence)
@@ -280,6 +274,7 @@ public class cAI extends Thread
 					this.speak();
 				}
 			}
+
 			this.bHasToThink = false;
 		}
 		catch(Exception ex)
@@ -296,7 +291,7 @@ public class cAI extends Thread
 	public void setInput(String sInput)
 	{
 		this.sInput         = sInput;
-		this.bHasToThink = true;
+		this.bHasToThink    = true;
 	}
 
 	// -- //
@@ -311,27 +306,33 @@ public class cAI extends Thread
 	// -- \\
 	public void speak()
 	{
-
 		if(this.sNextAnswer != null & this.sNextAnswer.length() > 1)
 		{
 			System.out.print(this.getAIName() + " says: ");
-			System.out.println(this.sNextAnswer);
+
+			cConsoleSentenceWriter writer = new cConsoleSentenceWriter(this.sNextAnswer);
 		}
+
+
 		// NOTE: This can cause some issues on the closeHandler to perform the automatic termination process.
 		cAISettings.closeHandler.resetCloseHandlerRequest();
 		cAISettings.consoleUtil.setLoadingState(false);
-		cAISettings.aiManager.getRandomTimeStatementManager().refreshTimer();
+	//	cAISettings.aiManager.getRandomTimeStatementManager().refreshTimer();
+
 		if(cAISettings.USE_GUI)
 		{
-			cMain.app.writeAIMessage(this.sNextAnswer);
+		//	cMain.app.writeAIMessage(this.sNextAnswer);
+			// NOW IMPLEMENTED IN THE cCONSOLESENTENCEWRITER
 		}
 	}
 
 	// -- //
 	// -- || Run
 	// -- \\
-	public synchronized void run()
+	public void run()
 	{
+		Thread.currentThread().setName("Thread_AI Main Thread");
+
 		try
 		{
 			System.out.println("AI Started. Awaiting Input");

@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import me.noneat.myai.ai.cAI;
 import me.noneat.myai.gui.cAIChatWindow;
+import me.noneat.myai.gui.popupdisplay.cPopupDisplayGUI;
 
 import java.sql.SQLException;
 
@@ -21,14 +22,19 @@ public class cMain extends Application
 	// -- || PVars
 	// -- \\
 	// PVArs
-	public static cAIChatWindow app;
+	public static cPopupDisplayGUI app;
 	public static cAI ai;
+
+	static long startupTime;
+
 
 	// -- //
 	// -- || Main
 	// -- \\
 	public static void main(String[] args)
 	{
+		startupTime = System.currentTimeMillis();
+
 		// Main Outputs
 		System.out.println("////// //////");
 		System.out.println("Loading MyAI " + cAISettings.VERSION + ", Debug: " + cAISettings.DEBUG);
@@ -43,7 +49,7 @@ public class cMain extends Application
 
 		// Finish Loadings
 		System.out.println();
-		System.out.println("Loading finished! Starting Threads...");
+		System.out.println("Loading finished! (" + (System.currentTimeMillis() - startupTime) + "ms) Starting Threads...");
 
 		// Start the AI
 		cMain.ai.start();
@@ -87,7 +93,7 @@ public class cMain extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-		this.app = new cAIChatWindow();
+		this.app = new cPopupDisplayGUI();
 		this.app.start(primaryStage);
 	}
 }

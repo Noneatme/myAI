@@ -2,7 +2,7 @@
   <library name="myAI">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/out/artifacts/myAI/myAI.zip!/" />
-      <root url="jar://$PROJECT_DIR$/out/artifacts/myAI/myAI.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/MyAI/MyAI.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

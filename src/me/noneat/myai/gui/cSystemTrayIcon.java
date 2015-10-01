@@ -38,15 +38,18 @@ public class cSystemTrayIcon
 		this.stage                          = stage;
 
 		this.tray                           = SystemTray.getSystemTray();
-		Image image                         = Toolkit.getDefaultToolkit().getImage("");
+		Image image                         = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/me/noneat/myai/assets/images/icons/popup/task.png"));
 
 		PopupMenu popup                     = new PopupMenu();
 		MenuItem showItem                   = new MenuItem("Offnen");
 		MenuItem exitItem                   = new MenuItem("Beenden");
+
 		this.icon                           = new TrayIcon(image, cAISettings.APPLICATION_NAME + " " + cAISettings.VERSION, popup);
 		this.icon.addActionListener(
 				e -> Platform.runLater(() -> this.doOpen())
 		);
+
+		this.icon.setImageAutoSize(true);
 
 		ActionListener listenerShow         = e -> Platform.runLater(() -> this.doOpen());
 		ActionListener listenerClose        = e -> System.exit(0);
@@ -58,6 +61,8 @@ public class cSystemTrayIcon
 
 		popup.add(showItem);
 		popup.add(exitItem);
+
+
 
 	}
 

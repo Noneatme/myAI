@@ -23,8 +23,10 @@ public class cSQLStatementAnswerFinder extends cSQLAnswerFinder
 	}
 
 	@Override
-	public synchronized void run()
+	public void run()
 	{
+		Thread.currentThread().setName("Thread_cSQLStatementAnswerFinder");
+
 		try
 		{
 			// set main tick so we know the start ms

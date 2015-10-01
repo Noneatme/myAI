@@ -34,6 +34,7 @@ public class cUserInputManager extends Thread
 	public synchronized void run()
 	{
 		String strLine;
+		Thread.currentThread().setName("Thread_Console Input Thread / cUserInputManager");
 
 		try
 		{

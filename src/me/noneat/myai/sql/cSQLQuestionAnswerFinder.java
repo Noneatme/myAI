@@ -38,6 +38,8 @@ public class cSQLQuestionAnswerFinder extends cSQLAnswerFinder
 	@Override
 	public synchronized void run()
 	{
+		Thread.currentThread().setName("Thread_cSQLQuestionAnswerFinder");
+
 		try
 		{
 			this.setTickCount(System.currentTimeMillis());

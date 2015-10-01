@@ -20,6 +20,8 @@ public class cGuiInputManager extends Thread
 
 	public synchronized void run()
 	{
+		Thread.currentThread().setName("Thread_GUI Input Thread");
+
 		cUserInput currentInput = new cUserInput(this.sCurrentInput);
 		this.sCurrentInput = null;
 	}

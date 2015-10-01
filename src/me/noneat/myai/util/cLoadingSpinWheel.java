@@ -21,6 +21,7 @@ public class cLoadingSpinWheel extends Thread
 	// -- \\
 	public void run()
 	{
+		Thread.currentThread().setName("Thread_Loading Spin Wheel Thread");
 
 		if(cAISettings.USE_ASCII_CHARS)
 		{

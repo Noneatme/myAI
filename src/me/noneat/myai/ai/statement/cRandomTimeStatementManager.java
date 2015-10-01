@@ -5,6 +5,7 @@ import me.noneat.myai.cAISettings;
 import me.noneat.myai.cMain;
 import me.noneat.myai.sql.cDatabase;
 
+import java.lang.management.ThreadInfo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -27,8 +28,10 @@ public class cRandomTimeStatementManager extends Thread
 	// -- || RandomTimeStatement
 	// -- || Objekt welches ein zufaelliges Zeitstatement bei Inaktivitaet erhaelt
 	// -- \\
-	public synchronized void run()
+	public void run()
 	{
+		Thread.currentThread().setName("Thread_Random Time Statement Sentence Thread");
+
 		try {this.setToSleep();}
 		catch(Exception ex){ dontSleep = false; }
 
@@ -36,33 +39,43 @@ public class cRandomTimeStatementManager extends Thread
 		{
 			try
 			{
-				if (this.outputEnabled && dontSleep && !this.isInterrupted())
-				{
-					String query = "SELECT * FROM " + cDatabase.TABLE_STATEMENT_RANDOMS + " ORDER BY iTimestamp ASC;";
-					ResultSet result = cAISettings.getDatabase().executeQuery(query);
+				if(this.outputEnabled && dontSleep && !this.isInterrupted())
+					talkRandomTimeStatement();
 
-					int id              = result.getInt(1);
-					String question     = result.getString(2);
-
-					cAISettings.getDatabase().executeUpdate("UPDATE " + cDatabase.TABLE_STATEMENT_RANDOMS + " SET 'iTimestamp' = " + System.currentTimeMillis() + " WHERE iID = '" + id + "';");
-
-					question = cSentenceUtils.putAINameIntoString(question);
-					System.out.println();
-					cMain.ai.setNextAnswer(question);
-					cMain.ai.speak();
-				}
-				dontSleep = true;
 				this.setToSleep();
+			}
 
-			}
-			catch(java.lang.InterruptedException ex)
-			{
-				dontSleep = false;
-			}
-			catch (SQLException e)
+			catch (InterruptedException e)
 			{
 				e.printStackTrace();
 			}
+		}
+	}
+
+	private void talkRandomTimeStatement()
+	{
+
+		if(this.dontSleep)
+			return;
+
+		String query = "SELECT * FROM " + cDatabase.TABLE_STATEMENT_RANDOMS + " ORDER BY iTimestamp ASC;";
+		ResultSet result = cAISettings.getDatabase().executeQuery(query);
+
+		try
+		{
+			int id = result.getInt(1);
+			String question = result.getString(2);
+
+			cAISettings.getDatabase().executeUpdate("UPDATE " + cDatabase.TABLE_STATEMENT_RANDOMS + " SET 'iTimestamp' = " + System.currentTimeMillis() + " WHERE iID = '" + id + "';");
+
+			question = cSentenceUtils.putAINameIntoString(question);
+			System.out.println();
+			cMain.ai.setNextAnswer(question);
+			cMain.ai.speak();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
 		}
 	}
 
@@ -92,7 +105,6 @@ public class cRandomTimeStatementManager extends Thread
 	{
 		try
 		{
-			this.interrupt();
 			dontSleep = false;
 			this.setToSleep();
 		}

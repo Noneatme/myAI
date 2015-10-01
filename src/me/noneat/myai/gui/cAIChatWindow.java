@@ -109,8 +109,10 @@ public class cAIChatWindow extends Application
 
 		// 1 //
 		WebView web = (WebView) this.scene1.lookup("#webview-weather2");
+		//web.getEngine().load("http://m.accuweather.com/de/de/hoxter/37671/weather-forecast/129050_pc");
 
 		WebView web3 = (WebView) this.scene1.lookup("#browser-kalendar");
+		//web3.getEngine().load("https://www.google.com/calendar/render?pli=1#main_7");
 
 		// IMAGES TABS //
 		TabPane pane = (TabPane) this.scene1.lookup("#tabpane1");

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="122.0" prefWidth="498.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+
+      <ImageView id="imageview2" fitHeight="122.0" fitWidth="127.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/images/icons/popup/glow.png" />
+         </image>
+      </ImageView>
+      <ImageView id="imageview1" fitHeight="88.0" fitWidth="88.0" layoutX="20.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/images/icons/popup/leftimage.png" />
+         </image>
+      </ImageView>
+      <ImageView id="imageview3" fitHeight="122.0" fitWidth="127.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true" opacity="0">
+         <image>
+            <Image url="@../../assets/images/icons/popup/loading.png" />
+         </image>
+      </ImageView>
+      <Pane id="pane1" layoutX="137.0" prefHeight="122.0" prefWidth="363.0">
+         <children>
+            <AnchorPane id="pane2" prefHeight="122.0" prefWidth="363.0">
+               <children>
+                  <TextField id="textfield-input" layoutX="-3.0" layoutY="92.0" prefHeight="25.0" prefWidth="356.0" />
+                  <TextArea id="textarea-output" layoutX="-3.0" layoutY="6.0" prefHeight="80.0" prefWidth="356.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

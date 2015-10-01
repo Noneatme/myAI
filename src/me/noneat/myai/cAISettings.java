@@ -27,7 +27,7 @@ public class cAISettings
 	public static boolean USE_ASCII_CHARS           = false;            // Enable the usage of ASCII chars
 	protected static boolean instanced              = false;            // Dont change
 	public static long TERMINATE_IDLE_TIME          = 20000*60*1000;         // Time in MS when the app will be killed
-	public static boolean USE_GUI                   = false;            // Change this to false if you want the console output instead
+	public static boolean USE_GUI                   = true;            // Change this to false if you want the console output instead
 																		// Useful for debugging
 
 	// -- //

@@ -1,16 +1,22 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="myAI">
-    <output-path>$PROJECT_DIR$/out/artifacts/myAI</output-path>
-    <properties id="ant-preprocessing">
-      <options enabled="true" />
+  <artifact type="javafx" name="MyAI">
+    <output-path>$PROJECT_DIR$/out/artifacts/MyAI</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="me.noneat.myai.cMain" />
+        <option name="description" value="" />
+        <option name="htmlParamFile" value="" />
+        <option name="paramFile" value="" />
+        <option name="title" value="MyAI" />
+        <option name="vendor" value="" />
+      </options>
     </properties>
-    <root id="archive" name="myAI.jar">
-      <element id="module-output" name="MyAI" />
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+    <root id="root">
+      <element id="archive" name="MyAI.jar">
+        <element id="module-output" name="MyAI" />
       </element>
-      <element id="extracted-dir" path="$PROJECT_DIR$/assets/sqlite-jdbc-3.8.11.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/assets/jsoup-1.8.3.jar" path-in-jar="/" />
+      <element id="library" level="project" name="jsoup-1.8.3" />
+      <element id="library" level="project" name="sqlite-jdbc-3.8.11.1" />
     </root>
   </artifact>
 </component>

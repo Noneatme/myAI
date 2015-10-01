@@ -32,8 +32,10 @@ public class cCloseHandler extends Thread
 	// -- //
 	// -- || run
 	// -- \\
-	public synchronized void run()
+	public void run()
 	{
+		Thread.currentThread().setName("Thread_Close Handler Thread");
+
 		while(true)
 		{
 			try

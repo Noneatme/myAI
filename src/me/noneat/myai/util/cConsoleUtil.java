@@ -45,7 +45,7 @@ public class cConsoleUtil
 			else
 			{
 				this.wheel.interrupt();
-				System.out.println();
+				//System.out.println();
 
 			}
 		}
